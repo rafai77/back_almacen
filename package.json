@@ -1,0 +1,27 @@
+{
+  "name": "almacen",
+  "version": "1.0.0",
+  "description": "Back-end para alamcen cimarron by priva",
+  "main": "server.js",
+  "scripts": {
+    "test": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafai77/back_almacen.git"
+  },
+  "author": "Rafael Aguirre Carmona (priva)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rafai77/back_almacen/issues"
+  },
+  "homepage": "https://github.com/rafai77/back_almacen#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.27.0",
+    "tempfile": "^3.0.0"
+  }
+}
