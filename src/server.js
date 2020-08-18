@@ -9,9 +9,8 @@ const mysqlConnection = require('./base');
 var moment = require('moment'); // para fechas
 const tempfile = require('tempfile');
 const { json } = require("express");
-//const crypto =require("crypto");
 
-
+const StringBuilder = require('node-stringbuilder');
 const cors = require('cors');
 
 app.use(cors());
@@ -20,6 +19,8 @@ app.options('*', cors());
 var token
 var secret="abc1234cimarron"
 app.listen(PORT, ()=> console.log(`Server is up on port: ${PORT}`));
+const AES = require('mysql-aes');
+
 
 //verificar jwt
 function verificaTk(req,res,next)
@@ -59,12 +60,10 @@ app.get('/', verificaTk, (req, res)=> {
   
 
  app.post('/log',function(req, res) {
-  
-
     var user = req.body.user;
     var pass = req.body.pass;
-
-    mysqlConnection.query("select * from usuarios where user=? and pass=aes_decrypt(?,?) ",[user,pass,secret],function (error, results, fields)
+    pass=AES.decrypt(pass, secret).toString()
+    mysqlConnection.query("select * from usuarios where user=? and aes_decrypt(pass ,?)= ? ",[user,secret,pass],function (error, results, fields)
     {
       if(error || results.length>1 || results.length<1)
       {

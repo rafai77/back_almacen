@@ -24,3 +24,6 @@ VALUES
 ("horticola cimarron","Hcimarron",aes_encrypt("cimarron2020","abc1234cimarron"),"admin");
 
 select user, aes_decrypt(pass ,"abc1234cimarron") from usuarios;
+
+
+select * from usuarios where user='Hcimarron' and aes_decrypt(pass ,"abc1234cimarron")='cimarron2020'

@@ -24,6 +24,8 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.27.0",
     "mysql": "^2.18.1",
+    "mysql-aes": "0.0.1",
+    "node-stringbuilder": "^2.2.4",
     "tempfile": "^3.0.0"
   }
 }
