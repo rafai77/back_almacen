@@ -1,5 +1,5 @@
 --Consulatas y creacion de la base de datos;
---entrar a la terminar y crear bd;
+--entrar a la terminar y crear bd;ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234'
 
 create DATABASE alamacen;
 use mysql;
