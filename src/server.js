@@ -9,6 +9,7 @@ const mysqlConnection = require('./base');
 var moment = require('moment'); // para fechas
 const tempfile = require('tempfile');
 const { json } = require("express");
+//const crypto =require("crypto");
 
 
 const cors = require('cors');
@@ -62,6 +63,7 @@ app.get('/', verificaTk, (req, res)=> {
 
     var user = req.body.user;
     var pass = req.body.pass;
+
     mysqlConnection.query("select * from usuarios where user=? and pass=aes_decrypt(?,?) ",[user,pass,secret],function (error, results, fields)
     {
       if(error || results.length>1 || results.length<1)
