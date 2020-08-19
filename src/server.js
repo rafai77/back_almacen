@@ -2,24 +2,31 @@ const PORT = process.env.PORT || 3000;
 const express = require("express");
 const app = express();
 const jwt=require('jsonwebtoken');//para la auth
-
+const utf8 = require('utf8');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 const mysqlConnection = require('./base');
 var moment = require('moment'); // para fechas
 const tempfile = require('tempfile');
 const { json } = require("express");
+var token;
+var secret="abc1234cimarron"
+var secret2="AAAAAAAAAAAAAAAAAAAAAA=="
 
 const StringBuilder = require('node-stringbuilder');
 const cors = require('cors');
-
+const AES = require('mysql-aes');
 app.use(cors());
 app.options('*', cors());
+const IV_LENGTH = 16
 
-var token
-var secret="abc1234cimarron"
+crypto = require('crypto');
+
+
 app.listen(PORT, ()=> console.log(`Server is up on port: ${PORT}`));
-const AES = require('mysql-aes');
+
+
+
 
 
 //verificar jwt
@@ -57,12 +64,11 @@ app.get('/', verificaTk, (req, res)=> {
 
     });       
 });
-  
 
  app.post('/log',function(req, res) {
     var user = req.body.user;
     var pass = req.body.pass;
-    pass=AES.decrypt(pass, secret).toString()
+    console.log(pass)
     mysqlConnection.query("select * from usuarios where user=? and aes_decrypt(pass ,?)= ? ",[user,secret,pass],function (error, results, fields)
     {
       if(error || results.length>1 || results.length<1)
