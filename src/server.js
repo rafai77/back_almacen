@@ -124,9 +124,7 @@ app.post('/datos', verificaTk, (req,res) =>
       console.log(sql);
       mysqlConnection.query(sql,function(error,result,fields)
       {
-       
         res.json(result);
-
       });
     }
 
