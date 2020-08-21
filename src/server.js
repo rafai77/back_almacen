@@ -107,5 +107,29 @@ app.get('/', verificaTk, (req, res)=> {
     });  
 });
 
+app.post('/datos', verificaTk, (req,res) =>
+{
+  jwt.verify(req.token,secret,(err,data)=>
+  {
+    if(err)
+    {
+      res.sendStatus(403);
+    }
+    else
+    {
+      //preparar la query 
+      let sql ="select * from  ";
+      if(req.body.tabla!=null) sql=sql+req.body.tabla;
+      if(req.body.tipo!=null) sql=sql+" where tipo = '" + req.body.tipo+"'"
+      console.log(sql);
+      mysqlConnection.query(sql,function(error,result,fields)
+      {
+       
+        res.json(result);
 
+      });
+    }
 
+  });
+
+});
