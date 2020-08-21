@@ -69,3 +69,5 @@ INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0038
 INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0039", 'Hipoclorito de calcio granulado 65%' ,725.000, 'Solido' , 'Kg');
 INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0040", 'Tradecorp Ca' ,425.000, 'Solido' , 'Kg');
 SELECT * FROM `almacen`.`inventario` LIMIT 1000;
+
+

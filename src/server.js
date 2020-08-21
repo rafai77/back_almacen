@@ -131,3 +131,55 @@ app.post('/datos', verificaTk, (req,res) =>
   });
 
 });
+
+app.post('/productos', verificaTk, (req,res) =>
+{
+  jwt.verify(req.token,secret,(err,data)=>
+  {
+    if(err)
+    {
+      res.sendStatus(403);
+    }
+    else
+    {
+      //preparar la query 
+      let sql ="select producto from  ";
+      if(req.body.tabla!=null) sql=sql+req.body.tabla;
+      if(req.body.tipo!=null) sql=sql+" where tipo = '" + req.body.tipo+"'"
+      console.log(sql);
+      mysqlConnection.query(sql,function(error,result,fields)
+      {
+        res.json(result);
+      });
+    }
+
+  });
+
+});
+
+app.post('/valores', verificaTk, (req,res) =>
+{
+  jwt.verify(req.token,secret,(err,data)=>
+  {
+    if(err)
+    {
+      res.sendStatus(403);
+    }
+    else
+    {
+      //preparar la query 
+      let sql ="select total from  ";
+      if(req.body.tabla!=null) sql=sql+req.body.tabla;
+      if(req.body.tipo!=null) sql=sql+" where tipo = '" + req.body.tipo+"'"
+      console.log(sql);
+      mysqlConnection.query(sql,function(error,result,fields)
+      {
+        res.json(result);
+      });
+    }
+
+  });
+
+});
+
+
