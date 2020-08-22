@@ -118,9 +118,9 @@ app.post('/datos', verificaTk, (req,res) =>
     else
     {
       //preparar la query 
-      let sql ="select * from  ";
-      if(req.body.tabla!=null) sql=sql+req.body.tabla;
-      if(req.body.tipo!=null) sql=sql+" where tipo = '" + req.body.tipo+"'"
+      let sql ="select p.id_producto,p.producto,x.total,p.tipo,p.unidad from productos p ,";
+       sql=sql+req.body.tabla;
+      if(req.body.tipo!=null) sql=sql+" x where tipo = '" + req.body.tipo+"' and p.id_producto=x.id_producto order by x.total DESC"
       console.log(sql);
       mysqlConnection.query(sql,function(error,result,fields)
       {
@@ -143,7 +143,7 @@ app.post('/productos', verificaTk, (req,res) =>
     else
     {
       //preparar la query 
-      let sql ="select producto from  ";
+      let sql ="select producto,total from  ";
       if(req.body.tabla!=null) sql=sql+req.body.tabla;
       if(req.body.tipo!=null) sql=sql+" where tipo = '" + req.body.tipo+"'"
       console.log(sql);

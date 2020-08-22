@@ -28,46 +28,125 @@ select user, aes_decrypt(pass ,"abc1234cimarron") from usuarios;
 
 select * from usuarios where user='Hcimarron' and aes_decrypt(pass ,"abc1234cimarron")='cimarron2020'
 
-
  create TABLE inventario
+ (
+   id_inve  int NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+   id_producto varchar(50) NOT NULL,
+   total DECIMAL(12,3) NOT NULL,
+   UNIQUE(total,id_producto),
+   FOREIGN KEY(id_producto) REFERENCES productos (id_producto)
+ );
+
+--liquidos
+INSERT INTO inventario(id_producto, total)VALUES ("FERL0001",  17548.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERL0002",  5940.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERL0007",  442.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERL0010",  4180.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERL0012",  335.000)   
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0001", 350.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0002", 187680.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0003", 14740.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0004", 30975.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0007", 3420.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0008",  80975.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0009", 13320.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0010", 57885.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0014", 653.400)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0015", 57.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0019", 4633.800)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0028", 19039.450)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0029", 11824.400)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0030", 480.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0031", 1700.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0032", 540.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0034", 3202.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0036", 4425.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0038", 600.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0039", 725.000)
+INSERT INTO inventario(id_producto, total)VALUES ("FERS0040", 425.000)
+SELECT count(*) FROM `almacen`.`inventario`  order by id_producto ASC;
+
+
+
+
+ create TABLE cm1
+ (
+   id_inve  int NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+   id_producto varchar(50) NOT NULL,
+   total DECIMAL(12,3) NOT NULL,
+   UNIQUE(total,id_producto),
+   FOREIGN KEY(id_producto) REFERENCES productos (id_producto)
+ );
+
+
+INSERT INTO cm1(id_producto, total)VALUES ("FERL0001",  17548.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERL0002",  5940.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERL0007",  442.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERL0010",  4180.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERL0012",  335.000)   
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0001", 350.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0002", 187680.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0003", 14740.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0004", 30975.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0007", 3420.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0008",  80975.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0009", 13320.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0010", 57885.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0014", 653.400)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0015", 57.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0019", 4633.800)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0028", 19039.450)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0029", 11824.400)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0030", 480.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0031", 1700.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0032", 540.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0034", 3202.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0036", 4425.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0038", 600.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0039", 725.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0040", 425.000)
+SELECT count(*) FROM `almacen`.`cm1` order by total DESC
+
+SELECT * FROM `almacen`.`inventario` order by total DESC
+
+
+
+
+
+create TABLE productos
  (
    id_producto  varchar(9) NOT NULL PRIMARY KEY  ,
    producto varchar(50) NOT NULL,
-   total DECIMAL(12,3) NOT NULL,
    tipo varchar(50) not null,
    unidad varchar(4)not null,
    UNIQUE(producto)
  );
 
---liquidos
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERL0001", 'Acido Nitrico al 55%' ,17548.000, 'Liquido' , 'Lt');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERL0002", 'Acido Sulfurico al 98%' ,5940.000, 'Liquido' , 'Lt');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERL0007", 'Fitosal Raiz' ,442.000, 'Liquido' , 'Lt');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERL0010", 'Acido Fosforico Ambar al 85%' ,4180.000, 'Liquido' , 'Lt');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERL0012", 'Bonosoil' ,335.000, 'Liquido' , 'Lt');
 
---solidos
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0001", 'Amonitro' ,350.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0002", 'Nitrato de Calcio' ,187680.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0003", 'Nitrato de Magnesio' ,14740.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0004", 'MKP' ,30975.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0007", 'Quelsel Hidroponia' ,3420.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0008", 'Sulfato de Magnesio' ,80975.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0009", 'Sulfato de Potasio' ,13320.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0010", 'Nitrato de Potasio' ,57885.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0014", 'Newquel Ca B' ,653.400, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0015", 'Actives Reforzado' ,57.000, 'Solido' , 'Pza');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0019", 'Quelsel mix+TI' ,4633.800, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0028", 'Cloruro de Potasio' ,19039.450, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0029", 'Cloruro de Calcio' ,11824.400, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0030", 'Newquel Zinc 14%' ,480.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0031", 'Solubor' ,1700.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0032", 'Newquel (Mn 12%)' ,540.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0034", 'Newquel Fe 13.2%' ,3202.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0036", 'Fosfatomonoamonico' ,4425.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0038", 'Quelsel Mg 6%' ,600.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0039", 'Hipoclorito de calcio granulado 65%' ,725.000, 'Solido' , 'Kg');
-INSERT INTO inventario(id_producto, producto,total,tipo,unidad)VALUES ("FERS0040", 'Tradecorp Ca' ,425.000, 'Solido' , 'Kg');
-SELECT * FROM `almacen`.`inventario` LIMIT 1000;
-
-
+ --liquidos
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERL0001", 'Acido Nitrico al 55%' , 'Liquido' , 'Lt');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERL0002", 'Acido Sulfurico al 98%' , 'Liquido' , 'Lt');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERL0007", 'Fitosal Raiz' , 'Liquido' , 'Lt');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERL0010", 'Acido Fosforico Ambar al 85%' , 'Liquido' , 'Lt');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERL0012", 'Bonosoil' , 'Liquido' , 'Lt');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0001", 'Amonitro' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0002", 'Nitrato de Calcio' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0003", 'Nitrato de Magnesio' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0004", 'MKP' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0007", 'Quelsel Hidroponia' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0008", 'Sulfato de Magnesio' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0009", 'Sulfato de Potasio' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0010", 'Nitrato de Potasio' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0014", 'Newquel Ca B' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0015", 'Actives Reforzado' , 'Solido' , 'Pza');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0019", 'Quelsel mix+TI' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0028", 'Cloruro de Potasio' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0029", 'Cloruro de Calcio' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0030", 'Newquel Zinc 14%' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0031", 'Solubor' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0032", 'Newquel (Mn 12%)' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0034", 'Newquel Fe 13.2%' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0036", 'Fosfatomonoamonico' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0038", 'Quelsel Mg 6%' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0039", 'Hipoclorito de calcio granulado 65%' , 'Solido' , 'Kg');
+INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0040", 'Tradecorp Ca' , 'Solido' , 'Kg');
