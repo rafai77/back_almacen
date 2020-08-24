@@ -184,11 +184,25 @@ INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0040", 'Tra
 create table cms
 (
    id_cm int not null PRIMARY KEY,
-   nombre varchar(30) not null,
+   nombre varchar(45) not null,
    invernaderos varchar(50)not null,
    planta varchar (10),
    nom2 varchar(10) not null,
    UNIQUE(nombre,planta)
 );
 
-Insert into cm (1,"Cuarto de maquinas 1","")
+UPDATE cms set planta="Tomate" where id_cm=5
+--1-4 cm1
+Insert into cms Values  (1,"Cuarto de maquinas 1-Pimiento","1,2,3,4","Pimiento","cm1");
+--5-6-7-8 uno solo para 2-3 pimineto cm2 y 3
+Insert into cms Values  (2,"Cuarto de maquinas 2-3-Pimiento" , "5,6,7,8","Pimiento","cm2");
+--9-10 pimineto cm 4
+Insert into cms Values  (3,"Cuarto de maquinas 4-Pimiento","9,10","Pimiento","cm4-p");
+--11-12 tomate cm 4
+Insert into cms Values  (4,"Cuarto de maquinas 4-Tomate","11-12","Tomate","cm4-t");
+--13 14 cm5 tomate
+Insert into cms Values  (5,"Cuarto de maquinas 5-Tomate","5,6,7,8","Tomate","cm5");
+-- 17 18 pimiento cm6
+Insert into cms Values  (6,"Cuarto de maquinas 6-Pimiento","17,18","Pimiento","cm6-p");
+--15 16 tomate cm6
+Insert into cms Values  (7,"Cuarto de maquinas 6-Tomate","15,16","Tomate","cm6-p");
