@@ -105,6 +105,35 @@ INSERT INTO cm1(id_producto, total)VALUES ("FERS0036", 4425.000)
 INSERT INTO cm1(id_producto, total)VALUES ("FERS0038", 600.000)
 INSERT INTO cm1(id_producto, total)VALUES ("FERS0039", 725.000)
 INSERT INTO cm1(id_producto, total)VALUES ("FERS0040", 425.000)
+
+UPDATE cm1 SET total=2250 where id_producto="FERL0001"; 
+UPDATE cm1 SET total=2440 where id_producto="FERL0002"; 
+UPDATE cm1 SET total=38 where id_producto="FERL0007"; 
+UPDATE cm1 SET total=0 where id_producto="FERL0010"; 
+UPDATE cm1 SET total=335.5 where id_producto="FERL0012"; 
+UPDATE cm1 SET total=0 where id_producto="FERS0001"; 
+UPDATE cm1 SET total=5575 where id_producto="FERS0002"; 
+UPDATE cm1 SET total=0 where id_producto="FERS0003"; 
+UPDATE cm1 SET total=1507 where id_producto="FERS0004"; 
+UPDATE cm1 SET total=0 where id_producto="FERS0007"; 
+UPDATE cm1 SET total=1650 where id_producto="FERS0008"; 
+UPDATE cm1 SET total=1785 where id_producto="FERS0009"; 
+UPDATE cm1 SET total=6310 where id_producto="FERS0010"; 
+UPDATE cm1 SET total=28.3 where id_producto="FERS0014"; 
+UPDATE cm1 SET total=0 where id_producto="FERS0015"; 
+UPDATE cm1 SET total=1137.5 where id_producto="FERS0019"; 
+UPDATE cm1 SET total=0 where id_producto="FERS0028"; 
+UPDATE cm1 SET total=0 where id_producto="FERS0029"; 
+UPDATE cm1 SET total=0 where id_producto="FERS0030"; 
+UPDATE cm1 SET total=0 where id_producto="FERS0031"; 
+UPDATE cm1 SET total=0 where id_producto="FERS0032"; 
+UPDATE cm1 SET total=498 where id_producto="FERS0034"; 
+UPDATE cm1 SET total=725 where id_producto="FERS0036"; 
+UPDATE cm1 SET total=0 where id_producto="FERS0038"; 
+UPDATE cm1 SET total=180 where id_producto="FERS0039"; 
+UPDATE cm1 SET total=0 where id_producto="FERS0040"; 
+
+
 SELECT count(*) FROM `almacen`.`cm1` order by total DESC
 
 SELECT * FROM `almacen`.`inventario` order by total DESC
@@ -150,3 +179,16 @@ INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0036", 'Fos
 INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0038", 'Quelsel Mg 6%' , 'Solido' , 'Kg');
 INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0039", 'Hipoclorito de calcio granulado 65%' , 'Solido' , 'Kg');
 INSERT INTO productos(id_producto, producto,tipo,unidad)VALUES ("FERS0040", 'Tradecorp Ca' , 'Solido' , 'Kg');
+
+
+create table cms
+(
+   id_cm int not null PRIMARY KEY,
+   nombre varchar(30) not null,
+   invernaderos varchar(50)not null,
+   planta varchar (10),
+   nom2 varchar(10) not null,
+   UNIQUE(nombre,planta)
+);
+
+Insert into cm (1,"Cuarto de maquinas 1","")
