@@ -31,11 +31,11 @@ app.listen(PORT, ()=> console.log(`Server is up on port: ${PORT}`));
 //verificar jwt
 function verificaTk(req,res,next)
 {
-  console.log(req.headers)
+  //console.log(req.headers)
   //console.log(req.body)
 
   let tk=req.headers['vefificador']
-  console.log(tk);
+  //console.log(tk);
   if(typeof tk != 'undefined')
   {       
    console.log(tk)

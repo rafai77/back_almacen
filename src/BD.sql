@@ -94,32 +94,32 @@ SELECT count(*) FROM `almacen`.`inventario`  order by id_producto ASC;
  );
 
 
-INSERT INTO cm1(id_producto, total)VALUES ("FERL0001",  17548.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERL0002",  5940.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERL0007",  442.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERL0010",  4180.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERL0012",  335.000)   
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0001", 350.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0002", 187680.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0003", 14740.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0004", 30975.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0007", 3420.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0008",  80975.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0009", 13320.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0010", 57885.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0014", 653.400)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0015", 57.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0019", 4633.800)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0028", 19039.450)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0029", 11824.400)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0030", 480.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0031", 1700.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0032", 540.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0034", 3202.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0036", 4425.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0038", 600.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0039", 725.000)
-INSERT INTO cm1(id_producto, total)VALUES ("FERS0040", 425.000)
+INSERT INTO cm1(id_producto, total)VALUES ("FERL0001",  17548.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERL0002",  5940.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERL0007",  442.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERL0010",  4180.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERL0012",  335.000) ;  
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0001", 350.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0002", 187680.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0003", 14740.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0004", 30975.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0007", 3420.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0008",  80975.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0009", 13320.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0010", 57885.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0014", 653.400);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0015", 57.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0019", 4633.800);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0028", 19039.450);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0029", 11824.400);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0030", 480.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0031", 1700.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0032", 540.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0034", 3202.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0036", 4425.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0038", 600.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0039", 725.000);
+INSERT INTO cm1(id_producto, total)VALUES ("FERS0040", 425.000);
 
 UPDATE cm1 SET total=2250 where id_producto="FERL0001"; 
 UPDATE cm1 SET total=2440 where id_producto="FERL0002"; 
