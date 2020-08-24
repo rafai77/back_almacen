@@ -23,6 +23,21 @@ INSERT INTO usuarios
 VALUES
 ("horticola cimarron","Hcimarron",aes_encrypt("cimarron2020","abc1234cimarron"),"admin");
 
+INSERT INTO usuarios
+( 
+   nombre,user,pass,rol
+)
+VALUES
+("Alamacen","almacen",aes_encrypt("almacen2020","abc1234cimarron"),"admin");
+
+INSERT INTO usuarios
+( 
+   nombre,user,pass,rol
+)
+VALUES
+("Cuarnto de maquinas 1","usercm1",aes_encrypt("cm12020","abc1234cimarron"),"userm");
+
+
 select user, aes_decrypt(pass ,"abc1234cimarron") from usuarios;
 
 
@@ -191,7 +206,7 @@ create table cms
    UNIQUE(nombre,planta)
 );
 
-UPDATE cms set planta="Tomate" where id_cm=5
+UPDATE cms set invernaderos= "13,14" where id_cm=5;
 --1-4 cm1
 Insert into cms Values  (1,"Cuarto de maquinas 1-Pimiento","1,2,3,4","Pimiento","cm1");
 --5-6-7-8 uno solo para 2-3 pimineto cm2 y 3
@@ -199,10 +214,40 @@ Insert into cms Values  (2,"Cuarto de maquinas 2-3-Pimiento" , "5,6,7,8","Pimien
 --9-10 pimineto cm 4
 Insert into cms Values  (3,"Cuarto de maquinas 4-Pimiento","9,10","Pimiento","cm4-p");
 --11-12 tomate cm 4
-Insert into cms Values  (4,"Cuarto de maquinas 4-Tomate","11-12","Tomate","cm4-t");
+Insert into cms Values  (4,"Cuarto de maquinas 4-Tomate","11,12","Tomate","cm4-t");
 --13 14 cm5 tomate
-Insert into cms Values  (5,"Cuarto de maquinas 5-Tomate","5,6,7,8","Tomate","cm5");
+Insert into cms Values  (5,"Cuarto de maquinas 5-Tomate","13,14","Tomate","cm5");
 -- 17 18 pimiento cm6
 Insert into cms Values  (6,"Cuarto de maquinas 6-Pimiento","17,18","Pimiento","cm6-p");
 --15 16 tomate cm6
 Insert into cms Values  (7,"Cuarto de maquinas 6-Tomate","15,16","Tomate","cm6-p");
+
+create table user_cms
+(
+   id_user int not null,
+   id_cm int not null,
+   PRIMARY KEY(id_user,id_cm),
+   FOREIGN KEY (id_user) REFERENCES usuarios(id_user),
+   FOREIGN KEY (id_cm) REFERENCES cms(id_cm)
+);
+
+
+Insert into user_cms VALUES (1,1);
+Insert into user_cms VALUES (1,2);
+Insert into user_cms VALUES (1,3);
+Insert into user_cms VALUES (1,4);
+Insert into user_cms VALUES (1,5);
+Insert into user_cms VALUES (1,6);
+Insert into user_cms VALUES (1,7);
+
+
+Insert into user_cms VALUES (2,1);
+Insert into user_cms VALUES (2,2);
+Insert into user_cms VALUES (2,3);
+Insert into user_cms VALUES (2,4);
+Insert into user_cms VALUES (2,5);
+Insert into user_cms VALUES (2,6);
+Insert into user_cms VALUES (2,7);
+
+Insert into user_cms VALUES (3,1);
+select c.* from user_cms uc,usuarios u,cms c where uc.id_user=u.id_user and c.id_cm=uc.id_cm and u.id_user=3

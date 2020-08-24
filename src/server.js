@@ -11,7 +11,6 @@ const tempfile = require('tempfile');
 const { json } = require("express");
 var token;
 var secret="abc1234cimarron"
-var secret2="AAAAAAAAAAAAAAAAAAAAAA=="
 
 const StringBuilder = require('node-stringbuilder');
 const cors = require('cors');
@@ -182,4 +181,24 @@ app.post('/valores', verificaTk, (req,res) =>
 
 });
 
+app.post('/cm-inver',verificaTk,(req,res)=>
+{
+  jwt.verify(req.token,secret,(err,data)=>{
+    if(err)
+    {
+      res.sendStatus(403);
+    }
+    else
+    {
+      var id=parseInt(req.body.id)
+      var sql="select c.* from user_cms uc,usuarios u,cms c where uc.id_user=u.id_user and c.id_cm=uc.id_cm and u.id_user="+id
+      console.log(sql);
+      mysqlConnection.query(sql,function(error,result,fields)
+      {
+        res.json(result);
+      });
+    }
+
+  });
+});
 
