@@ -206,7 +206,7 @@ create table cms
    UNIQUE(nombre,planta)
 );
 
-UPDATE cms set nom2= "cm4_p" where id_cm=3;
+UPDATE cms set nom2= "cm6_t" where id_cm=7;
 --1-4 cm1
 Insert into cms Values  (1,"Cuarto de maquinas 1-Pimiento","1,2,3,4","Pimiento","cm1");
 --5-6-7-8 uno solo para 2-3 pimineto cm2 y 3
@@ -388,3 +388,268 @@ UPDATE cm4_p SET total=1100 where id_producto="FERS0036";
 UPDATE cm4_p SET total=0 where id_producto="FERS0038"; 
 UPDATE cm4_p SET total=0 where id_producto="FERS0039"; 
 UPDATE cm4_p SET total=0 where id_producto="FERS0040"; 
+
+
+
+
+ create TABLE cm6_p
+ (
+   id_inve  int NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+   id_producto varchar(50) NOT NULL,
+   total DECIMAL(12,3) NOT NULL,
+   UNIQUE(total,id_producto),
+   FOREIGN KEY(id_producto) REFERENCES productos (id_producto)
+ );
+
+
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERL0001",  17548.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERL0002",  5940.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERL0007",  442.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERL0010",  4180.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERL0012",  335.000) ;  
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0001", 350.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0002", 187680.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0003", 14740.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0004", 30975.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0007", 3420.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0008",  80975.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0009", 13320.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0010", 57885.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0014", 653.400);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0015", 57.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0019", 4633.800);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0028", 19039.450);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0029", 11824.400);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0030", 480.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0031", 1700.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0032", 540.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0034", 3202.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0036", 4425.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0038", 600.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0039", 725.000);
+INSERT INTO cm6_p(id_producto, total)VALUES ("FERS0040", 425.000);
+
+UPDATE cm6_p SET total=750 where id_producto="FERL0001"; 
+UPDATE cm6_p SET total=0 where id_producto="FERL0002"; 
+UPDATE cm6_p SET total=80 where id_producto="FERL0007"; 
+UPDATE cm6_p SET total=0 where id_producto="FERL0010"; 
+UPDATE cm6_p SET total=0 where id_producto="FERL0012"; 
+UPDATE cm6_p SET total=200 where id_producto="FERS0001"; 
+UPDATE cm6_p SET total=17400 where id_producto="FERS0002"; 
+UPDATE cm6_p SET total=2925 where id_producto="FERS0003"; 
+UPDATE cm6_p SET total=3225 where id_producto="FERS0004"; 
+UPDATE cm6_p SET total=0 where id_producto="FERS0007"; 
+UPDATE cm6_p SET total=2450 where id_producto="FERS0008"; 
+UPDATE cm6_p SET total=1150 where id_producto="FERS0009"; 
+UPDATE cm6_p SET total=3150 where id_producto="FERS0010"; 
+UPDATE cm6_p SET total=0 where id_producto="FERS0014"; 
+UPDATE cm6_p SET total=0 where id_producto="FERS0015"; 
+UPDATE cm6_p SET total=720 where id_producto="FERS0019"; 
+UPDATE cm6_p SET total=0 where id_producto="FERS0028"; 
+UPDATE cm6_p SET total=0 where id_producto="FERS0029"; 
+UPDATE cm6_p SET total=0 where id_producto="FERS0030"; 
+UPDATE cm6_p SET total=0 where id_producto="FERS0031"; 
+UPDATE cm6_p SET total=0 where id_producto="FERS0032"; 
+UPDATE cm6_p SET total=340 where id_producto="FERS0034"; 
+UPDATE cm6_p SET total=2600 where id_producto="FERS0036"; 
+UPDATE cm6_p SET total=0 where id_producto="FERS0038"; 
+UPDATE cm6_p SET total=0 where id_producto="FERS0039"; 
+UPDATE cm6_p SET total=0 where id_producto="FERS0040"; 
+
+
+
+
+
+ create TABLE cm4_t
+ (
+   id_inve  int NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+   id_producto varchar(50) NOT NULL,
+   total DECIMAL(12,3) NOT NULL,
+   UNIQUE(total,id_producto),
+   FOREIGN KEY(id_producto) REFERENCES productos (id_producto)
+ );
+
+
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERL0001",  17548.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERL0002",  5940.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERL0007",  442.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERL0010",  4180.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERL0012",  335.000) ;  
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0001", 350.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0002", 187680.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0003", 14740.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0004", 30975.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0007", 3420.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0008",  80975.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0009", 13320.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0010", 57885.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0014", 653.400);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0015", 57.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0019", 4633.800);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0028", 19039.450);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0029", 11824.400);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0030", 480.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0031", 1700.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0032", 540.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0034", 3202.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0036", 4425.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0038", 600.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0039", 725.000);
+INSERT INTO cm4_t(id_producto, total)VALUES ("FERS0040", 425.000);
+
+UPDATE cm4_t SET total=4000 where id_producto="FERL0001"; 
+UPDATE cm4_t SET total=640 where id_producto="FERL0002"; 
+UPDATE cm4_t SET total=0 where id_producto="FERL0007"; 
+UPDATE cm4_t SET total=1200 where id_producto="FERL0010"; 
+UPDATE cm4_t SET total=0 where id_producto="FERL0012"; 
+UPDATE cm4_t SET total=0 where id_producto="FERS0001"; 
+UPDATE cm4_t SET total=55275 where id_producto="FERS0002"; 
+UPDATE cm4_t SET total=975 where id_producto="FERS0003"; 
+UPDATE cm4_t SET total=4400 where id_producto="FERS0004"; 
+UPDATE cm4_t SET total=800 where id_producto="FERS0007"; 
+UPDATE cm4_t SET total=21400 where id_producto="FERS0008"; 
+UPDATE cm4_t SET total=3935 where id_producto="FERS0009"; 
+UPDATE cm4_t SET total=20550 where id_producto="FERS0010"; 
+UPDATE cm4_t SET total=0 where id_producto="FERS0014"; 
+UPDATE cm4_t SET total=0 where id_producto="FERS0015"; 
+UPDATE cm4_t SET total=0 where id_producto="FERS0019"; 
+UPDATE cm4_t SET total=7639.45 where id_producto="FERS0028"; 
+UPDATE cm4_t SET total=2292.1 where id_producto="FERS0029"; 
+UPDATE cm4_t SET total=180 where id_producto="FERS0030"; 
+UPDATE cm4_t SET total=1425 where id_producto="FERS0031"; 
+UPDATE cm4_t SET total=255 where id_producto="FERS0032"; 
+UPDATE cm4_t SET total=180 where id_producto="FERS0034"; 
+UPDATE cm4_t SET total=0 where id_producto="FERS0036"; 
+UPDATE cm4_t SET total=100 where id_producto="FERS0038"; 
+UPDATE cm4_t SET total=0 where id_producto="FERS0039"; 
+UPDATE cm4_t SET total=0 where id_producto="FERS0040"; 
+
+)
+create TABLE cm5
+ (
+   id_inve  int NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+   id_producto varchar(50) NOT NULL,
+   total DECIMAL(12,3) NOT NULL,
+   UNIQUE(total,id_producto),
+   FOREIGN KEY(id_producto) REFERENCES productos (id_producto)
+ );
+
+
+INSERT INTO cm5(id_producto, total)VALUES ("FERL0001",  17548.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERL0002",  5940.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERL0007",  442.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERL0010",  4180.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERL0012",  335.000) ;  
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0001", 350.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0002", 187680.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0003", 14740.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0004", 30975.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0007", 3420.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0008",  80975.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0009", 13320.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0010", 57885.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0014", 653.400);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0015", 57.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0019", 4633.800);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0028", 19039.450);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0029", 11824.400);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0030", 480.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0031", 1700.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0032", 540.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0034", 3202.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0036", 4425.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0038", 600.000);
+INSERT INTO cm5(id_producto, total)VALUES ("FERS0039", 725.000);
+INSERT INTO cm5(id_producto, total) VALUES ("FERS0040", 425.000);
+
+UPDATE cm5 SET total=0 where id_producto="FERL0001"; 
+UPDATE cm5 SET total=0 where id_producto="FERL0002"; 
+UPDATE cm5 SET total=0 where id_producto="FERL0007"; 
+UPDATE cm5 SET total=480 where id_producto="FERL0010"; 
+UPDATE cm5 SET total=0 where id_producto="FERL0012"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0001"; 
+UPDATE cm5 SET total=2425 where id_producto="FERS0002"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0003"; 
+UPDATE cm5 SET total=975 where id_producto="FERS0004"; 
+UPDATE cm5 SET total=540 where id_producto="FERS0007"; 
+UPDATE cm5 SET total=1350 where id_producto="FERS0008"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0009"; 
+UPDATE cm5 SET total=1700 where id_producto="FERS0010"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0014"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0015"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0019"; 
+UPDATE cm5 SET total=1350 where id_producto="FERS0028"; 
+UPDATE cm5 SET total=1725 where id_producto="FERS0029"; 
+UPDATE cm5 SET total=40 where id_producto="FERS0030"; 
+UPDATE cm5 SET total=25 where id_producto="FERS0031"; 
+UPDATE cm5 SET total=90 where id_producto="FERS0032"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0034"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0036"; 
+UPDATE cm5 SET total=100 where id_producto="FERS0038"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0039"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0040"; 
+
+
+create TABLE cm6_t
+ (
+   id_inve  int NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+   id_producto varchar(50) NOT NULL,
+   total DECIMAL(12,3) NOT NULL,
+   UNIQUE(total,id_producto),
+   FOREIGN KEY(id_producto) REFERENCES productos (id_producto)
+ );
+
+
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERL0001",  17548.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERL0002",  5940.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERL0007",  442.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERL0010",  4180.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERL0012",  335.000) ;  
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0001", 350.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0002", 187680.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0003", 14740.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0004", 30975.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0007", 3420.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0008",  80975.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0009", 13320.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0010", 57885.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0014", 653.400);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0015", 57.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0019", 4633.800);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0028", 19039.450);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0029", 11824.400);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0030", 480.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0031", 1700.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0032", 540.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0034", 3202.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0036", 4425.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0038", 600.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0039", 725.000);
+INSERT INTO cm6_t(id_producto, total)VALUES ("FERS0040", 425.000);
+
+UPDATE cm5 SET total=4000 where id_producto="FERL0001"; 
+UPDATE cm5 SET total=440 where id_producto="FERL0002"; 
+UPDATE cm5 SET total=0 where id_producto="FERL0007"; 
+UPDATE cm5 SET total=520 where id_producto="FERL0010"; 
+UPDATE cm5 SET total=0 where id_producto="FERL0012"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0001"; 
+UPDATE cm5 SET total=46900 where id_producto="FERS0002"; 
+UPDATE cm5 SET total=3500 where id_producto="FERS0003"; 
+UPDATE cm5 SET total=8250 where id_producto="FERS0004"; 
+UPDATE cm5 SET total=1140 where id_producto="FERS0007"; 
+UPDATE cm5 SET total=19800 where id_producto="FERS0008"; 
+UPDATE cm5 SET total=2150 where id_producto="FERS0009"; 
+UPDATE cm5 SET total=3825 where id_producto="FERS0010"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0014"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0015"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0019"; 
+UPDATE cm5 SET total=2875 where id_producto="FERS0028"; 
+UPDATE cm5 SET total=1343.1 where id_producto="FERS0029"; 
+UPDATE cm5 SET total=180 where id_producto="FERS0030"; 
+UPDATE cm5 SET total=200 where id_producto="FERS0031"; 
+UPDATE cm5 SET total=160 where id_producto="FERS0032"; 
+UPDATE cm5 SET total=480 where id_producto="FERS0034"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0036"; 
+UPDATE cm5 SET total=80 where id_producto="FERS0038"; 
+UPDATE cm5 SET total=0 where id_producto="FERS0039"; 
+UPDATE cm5 SET total=237.5 where id_producto="FERS0040"; 
