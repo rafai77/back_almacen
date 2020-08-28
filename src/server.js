@@ -38,12 +38,15 @@ function verificaTk(req,res,next)
   //console.log(tk);
   if(typeof tk != 'undefined')
   {       
-   console.log(tk)
+   //console.log(tk)
   req.token=tk;
   next();
   }
   else{
-    res.sendStatus(403);
+    res.json(
+    {"estatus":"Clave vencida",
+    "vecido":true}
+    );
   }
 }
 
@@ -53,7 +56,10 @@ app.get('/', verificaTk, (req, res)=> {
     {
       if(err)
       {
-        res.sendStatus(403);
+        res.json(
+          {"estatus":"Clave vencida",
+          "vecido":true}
+          );
       }
       else
       {
@@ -112,18 +118,26 @@ app.post('/datos', verificaTk, (req,res) =>
   {
     if(err)
     {
-      res.sendStatus(403);
+      res.json(
+        {"estatus":"Clave vencida",
+        "vecido":true}
+        );
     }
     else
     {
       //preparar la query 
       let sql ="select p.id_producto,p.producto,x.total,p.tipo,p.unidad from productos p ,";
-       sql=sql+req.body.tabla;
-      if(req.body.tipo!=null) sql=sql+" x where tipo = '" + req.body.tipo+"' and p.id_producto=x.id_producto order by x.total DESC"
+       sql=sql+req.body.tabla+" x";
+       sql=sql+" where  p.id_producto=x.id_producto"
+       if(req.body.tipo!="ls")sql=sql+" and tipo = '" + req.body.tipo+"' "
+      sql=sql+" order by x.total DESC"
       console.log(sql);
       mysqlConnection.query(sql,function(error,result,fields)
       {
+        if(!error)
         res.json(result);
+        else
+        res.json({"error":"error en el servidor"})
       });
     }
 
@@ -137,7 +151,10 @@ app.post('/productos', verificaTk, (req,res) =>
   {
     if(err)
     {
-      res.sendStatus(403);
+      res.json(
+        {"estatus":"Clave vencida",
+        "vecido":true}
+        );
     }
     else
     {
@@ -162,7 +179,10 @@ app.post('/valores', verificaTk, (req,res) =>
   {
     if(err)
     {
-      res.sendStatus(403);
+      res.json(
+        {"estatus":"Clave vencida",
+        "vecido":true}
+        );
     }
     else
     {
@@ -186,7 +206,10 @@ app.post('/cm-inver',verificaTk,(req,res)=>
   jwt.verify(req.token,secret,(err,data)=>{
     if(err)
     {
-      res.sendStatus(403);
+      res.json(
+        {"estatus":"Clave vencida",
+        "vecido":true}
+        );
     }
     else
     {
