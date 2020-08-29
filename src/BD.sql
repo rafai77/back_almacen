@@ -653,3 +653,17 @@ UPDATE cm5 SET total=0 where id_producto="FERS0036";
 UPDATE cm5 SET total=80 where id_producto="FERS0038"; 
 UPDATE cm5 SET total=0 where id_producto="FERS0039"; 
 UPDATE cm5 SET total=237.5 where id_producto="FERS0040"; 
+
+select p.id_producto,p.producto,x.total,p.tipo,p.unidad from productos p ,inventario x where  p.id_producto=x.id_producto order by x.total DESC
+
+create TABLE Formulas
+(
+  id_fromula int not null AUTO_INCREMENT  PRIMARY key,
+  id_producto varchar(50) NOT NULL,
+  cantidad DECIMAL(10,6) not null,
+  id_cm int not null ,
+  FOREIGN KEY(id_producto) REFERENCES productos (id_producto),
+  FOREIGN KEY(id_cm) REFERENCES cms (id_cm),
+  UNIQUE(id_producto,id_cm)
+
+)
