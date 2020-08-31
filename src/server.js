@@ -236,18 +236,21 @@ app.get('/formulaView/:cm/',verificaTk,(req,res)=>
       "vecido":true}
       );
   }
-  else
-  {
-    var cm;
-    cm=req.params.cm;
-    mysqlConnection.query("select DISTINCT  p.producto, f.cantidad from productos p ,cms c,formulas f where f.id_producto=p.id_producto and f.id_cm=?",[cm],function(error,result,fields)
+    else
+    {
+      var cm;
+      cm=req.params.cm;
+      mysqlConnection.query("select id_cm from cms where nom2=?",[cm],function(error,result,fields)
       {
-        if(error)
-        res.json({"error":true})
-        else
-        res.json(result);
+        mysqlConnection.query("select DISTINCT  p.producto, f.cantidad from productos p ,cms c,formulas f where f.id_producto=p.id_producto and f.id_cm=?",[result[0].id_cm],function(error,row,fields)
+          {
+            if(error)
+            res.json({"error":true})
+            else
+            res.json(row);
+          });
       });
-  }
+    }
   });
 });
 
