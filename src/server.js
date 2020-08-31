@@ -268,3 +268,21 @@ app.post('/formulaadd',verificaTk,(req,res)=>
     
   }
 });
+
+app.post('/addconsumo',verificaTk,(req,res)=>
+{
+  if(err)
+  {
+    res.json(
+      {"estatus":"Clave vencida",
+      "vecido":true}
+      );
+  }
+  else
+  {
+      var productos=req.body.productos;
+      var cantidades=req.body.cantidades
+      console.log(productos,cantidades);
+      res.send("ok");
+  }
+});

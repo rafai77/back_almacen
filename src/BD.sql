@@ -693,8 +693,8 @@ CREATE table consumocm1
   UNIQUE (id_producto,id_cm,fecha)
 )
 --ver la formula
-select p.producto ,con.total from productos p ,cms c,consumocm1 con where ;
-
+select DISTINCT p.producto ,con.cantidad from productos p ,cms c,consumocm1 con where p.id_producto=con.id_producto and  c.id_cm=1;
+--agrega la formuila 
 insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERL0001',100,1,"2020-08-31");
 insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERL0002',275,1,'2020-08-31 ');
 insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERS0019',12.5,1,'2020-08-31 ');
