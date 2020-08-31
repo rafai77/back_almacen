@@ -667,3 +667,39 @@ create TABLE Formulas
   UNIQUE(id_producto,id_cm)
 
 )
+
+insert into formulas (id_producto,cantidad,id_cm)  Values('FERL0001',100,1);
+insert into formulas (id_producto,cantidad,id_cm)  Values('FERL0002',275,1);
+insert into formulas (id_producto,cantidad,id_cm)  Values('FERS0019',12.5,1);
+insert into formulas (id_producto,cantidad,id_cm)  Values('FERS0008',150,1);
+insert into formulas (id_producto,cantidad,id_cm)  Values('FERL0010',50,1);
+insert into formulas (id_producto,cantidad,id_cm)  Values('FERS0009',25,1);
+insert into formulas (id_producto,cantidad,id_cm)  Values('FERS0004',100,1);
+insert into formulas (id_producto,cantidad,id_cm)  Values('FERL0007',2,1);
+insert into formulas (id_producto,cantidad,id_cm)  Values('FERS0014',1.5,1);
+
+
+CREATE table consumocm1
+(
+  id_consucm1 int not null AUTO_INCREMENT PRIMARY KEY,
+  id_producto varchar(50) NOT NULL, 
+  cantidad DECIMAL(12,3) NOT NULL,
+  id_cm int not null ,
+  fecha DATE not null,
+  FOREIGN KEY(id_producto) REFERENCES productos (id_producto),
+  FOREIGN KEY(id_cm) REFERENCES cms (id_cm),
+  UNIQUE (id_producto,id_cm,fecha)
+)
+
+
+
+insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERL0001',100,1,"2020-08-31");
+insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERL0002',275,1,'2020-08-31 ');
+insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERS0019',12.5,1,'2020-08-31 ');
+insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERS0008',150,1,'2020-08-31 ');
+insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERL0010',50,1,'2020-08-31 ');
+insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERS0009',25,1,'2020-08-31 ');
+insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERS0004',100,1,'2020-08-31 ');
+insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERL0007',2,1,'2020-08-31 ');
+insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERS0014',1.5,1,'2020-08-31 ');
+

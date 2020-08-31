@@ -225,3 +225,32 @@ app.post('/cm-inver',verificaTk,(req,res)=>
   });
 });
 
+app.get('/formulaView',verificaTk,(req,res)=>
+{
+  if(err)
+  {
+    res.json(
+      {"estatus":"Clave vencida",
+      "vecido":true}
+      );
+  }
+  else
+  {
+
+  }
+});
+
+app.post('/formulaadd',verificaTk,(req,res)=>
+{
+  if(err)
+  {
+    res.json(
+      {"estatus":"Clave vencida",
+      "vecido":true}
+      );
+  }
+  else
+  {
+    
+  }
+});
