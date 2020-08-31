@@ -225,8 +225,10 @@ app.post('/cm-inver',verificaTk,(req,res)=>
   });
 });
 
-app.get('/formulaView',verificaTk,(req,res)=>
+app.get('/formulaView/:cm/',verificaTk,(req,res)=>
 {
+  jwt.verify(req.token,secret,(err,data)=>{
+
   if(err)
   {
     res.json(
@@ -236,8 +238,17 @@ app.get('/formulaView',verificaTk,(req,res)=>
   }
   else
   {
-
+    var cm;
+    cm=req.params.cm;
+    mysqlConnection.query("select DISTINCT  p.producto, f.cantidad from productos p ,cms c,formulas f where f.id_producto=p.id_producto and f.id_cm=?",[cm],function(error,result,fields)
+      {
+        if(error)
+        res.json({"error":true})
+        else
+        res.json(result);
+      });
   }
+  });
 });
 
 app.post('/formulaadd',verificaTk,(req,res)=>

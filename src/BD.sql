@@ -678,6 +678,8 @@ insert into formulas (id_producto,cantidad,id_cm)  Values('FERS0004',100,1);
 insert into formulas (id_producto,cantidad,id_cm)  Values('FERL0007',2,1);
 insert into formulas (id_producto,cantidad,id_cm)  Values('FERS0014',1.5,1);
 
+--ver la formula actual
+select DISTINCT  p.producto, f.cantidad from productos p ,cms c,formulas f where f.id_producto=p.id_producto and f.id_cm=1;
 
 CREATE table consumocm1
 (
@@ -690,8 +692,8 @@ CREATE table consumocm1
   FOREIGN KEY(id_cm) REFERENCES cms (id_cm),
   UNIQUE (id_producto,id_cm,fecha)
 )
-
-
+--ver la formula
+select p.producto ,con.total from productos p ,cms c,consumocm1 con where ;
 
 insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERL0001',100,1,"2020-08-31");
 insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERL0002',275,1,'2020-08-31 ');
