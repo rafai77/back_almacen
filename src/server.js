@@ -268,9 +268,10 @@ app.post('/formulaadd',verificaTk,(req,res)=>
     
   }
 });
-
+ 
 app.post('/addconsumo',verificaTk,(req,res)=>
 {
+  jwt.verify(req.token,secret,(err,data)=>{
   if(err)
   {
     res.json(
@@ -281,8 +282,14 @@ app.post('/addconsumo',verificaTk,(req,res)=>
   else
   {
       var productos=req.body.productos;
-      var cantidades=req.body.cantidades
-      console.log(productos,cantidades);
+      var cantidades=req.body.cantidades;
+      console.log("hola")
+      console.log(req.body);
+      for (i in productos)
+      {
+        console.log(productos[i]+","+ cantidades[i]+" "+req.body.cm )
+      }
       res.send("ok");
   }
+});
 });
