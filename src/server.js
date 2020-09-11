@@ -1,16 +1,20 @@
 const PORT = process.env.PORT || 3000;
 const express = require("express");
 const app = express();
-const jwt=require('jsonwebtoken');//para la auth
+const jwt = require('jsonwebtoken'); //para la auth
 const utf8 = require('utf8');
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({
+  extended: true
+}));
 const mysqlConnection = require('./base');
 var moment = require('moment'); // para fechas
 const tempfile = require('tempfile');
-const { json } = require("express");
+const {
+  json
+} = require("express");
 var token;
-var secret="abc1234cimarron"
+var secret = "abc1234cimarron"
 
 const StringBuilder = require('node-stringbuilder');
 const cors = require('cors');
@@ -22,122 +26,102 @@ const IV_LENGTH = 16
 crypto = require('crypto');
 
 
-app.listen(PORT, ()=> console.log(`Server is up on port: ${PORT}`));
+app.listen(PORT, () => console.log(`Server is up on port: ${PORT}`));
 
 
 
 
 
 //verificar jwt
-function verificaTk(req,res,next)
-{
+function verificaTk(req, res, next) {
   //console.log(req.headers)
   //console.log(req.body)
 
-  let tk=req.headers['vefificador']
+  let tk = req.headers['vefificador']
   //console.log(tk);
-  if(typeof tk != 'undefined')
-  {       
-   //console.log(tk)
-  req.token=tk;
-  next();
-  }
-  else{
-    res.json(
-    {"estatus":"Clave vencida",
-    "vecido":true}
-    );
+  if (typeof tk != 'undefined') {
+    //console.log(tk)
+    req.token = tk;
+    next();
+  } else {
+    res.json({
+      "estatus": "Clave vencida",
+      "vecido": true
+    });
   }
 }
 
 
-app.get('/', verificaTk, (req, res)=> {
-    jwt.verify(req.token,secret,(err,data)=>
-    {
-      if(err)
-      {
-        res.json(
-          {"estatus":"Clave vencida",
-          "vecido":true}
-          );
-      }
-      else
-      {
-       
-         res.send('Back-end De Calidad \n by Priva-cimarron ');
-      }
+app.get('/', verificaTk, (req, res) => {
+  jwt.verify(req.token, secret, (err, data) => {
+    if (err) {
+      res.json({
+        "estatus": "Clave vencida",
+        "vecido": true
+      });
+    } else {
 
-    });       
-});
-
- app.post('/log',function(req, res) {
-    var user = req.body.user;
-    var pass = req.body.pass;
-    console.log(pass)
-    mysqlConnection.query("select * from usuarios where user=? and aes_decrypt(pass ,?)= ? ",[user,secret,pass],function (error, results, fields)
-    {
-      if(error || results.length>1 || results.length<1)
-      {
-        console.log("Intento de ingreso de "+user+" contraseña "+pass+" con la ip "+req.ip)
-        res.json
-        (
-          {
-            log:false,
-            status:"usuario o contraseña mal ",
-            user:null,
-            token:null
-          }
-        );
-      }
-      else
-      {
-        var User={
-          id_user:results[0].id_user,
-          nombre:results[0].nombre,
-          rol:results[0].rol,
-          user:results[0].user
-        }
-        token=jwt.sign(User, secret);
-        console.log("Entro el ususario:");
-        console.log(User) ;
-        res.json(
-          {
-            log:true,
-            status:"Entro",
-            user:User,
-            token:token
-          }
-        );
-      }
-    });  
-});
-
-app.post('/datos', verificaTk, (req,res) =>
-{
-  jwt.verify(req.token,secret,(err,data)=>
-  {
-    if(err)
-    {
-      res.json(
-        {"estatus":"Clave vencida",
-        "vecido":true}
-        );
+      res.send('Back-end De Calidad \n by Priva-cimarron ');
     }
-    else
-    {
+
+  });
+});
+
+app.post('/log', function (req, res) {
+  var user = req.body.user;
+  var pass = req.body.pass;
+  console.log(pass)
+  mysqlConnection.query("select * from usuarios where user=? and aes_decrypt(pass ,?)= ? ", [user, secret, pass], function (error, results, fields) {
+    if (error || results.length > 1 || results.length < 1) {
+      console.log("Intento de ingreso de " + user + " contraseña " + pass + " con la ip " + req.ip)
+      res.json({
+        log: false,
+        status: "usuario o contraseña mal ",
+        user: null,
+        token: null
+      });
+    } else {
+      var User = {
+        id_user: results[0].id_user,
+        nombre: results[0].nombre,
+        rol: results[0].rol,
+        user: results[0].user
+      }
+      token = jwt.sign(User, secret);
+      console.log("Entro el ususario:");
+      console.log(User);
+      res.json({
+        log: true,
+        status: "Entro",
+        user: User,
+        token: token
+      });
+    }
+  });
+});
+
+app.post('/datos', verificaTk, (req, res) => {
+  jwt.verify(req.token, secret, (err, data) => {
+    if (err) {
+      res.json({
+        "estatus": "Clave vencida",
+        "vecido": true
+      });
+    } else {
       //preparar la query 
-      let sql ="select p.id_producto,p.producto,x.total,p.tipo,p.unidad from productos p ,";
-       sql=sql+req.body.tabla+" x";
-       sql=sql+" where  p.id_producto=x.id_producto"
-       if(req.body.tipo!="ls")sql=sql+" and tipo = '" + req.body.tipo+"' "
-      sql=sql+" order by x.total DESC"
+      let sql = "select p.id_producto,p.producto,x.total,p.tipo,p.unidad from productos p ,";
+      sql = sql + req.body.tabla + " x";
+      sql = sql + " where  p.id_producto=x.id_producto"
+      if (req.body.tipo != "ls") sql = sql + " and tipo = '" + req.body.tipo + "' "
+      sql = sql + " order by x.total DESC"
       console.log(sql);
-      mysqlConnection.query(sql,function(error,result,fields)
-      {
-        if(!error)
-        res.json(result);
+      mysqlConnection.query(sql, function (error, result, fields) {
+        if (!error)
+          res.json(result);
         else
-        res.json({"error":"error en el servidor"})
+          res.json({
+            "error": "error en el servidor"
+          })
       });
     }
 
@@ -145,26 +129,20 @@ app.post('/datos', verificaTk, (req,res) =>
 
 });
 
-app.post('/productos', verificaTk, (req,res) =>
-{
-  jwt.verify(req.token,secret,(err,data)=>
-  {
-    if(err)
-    {
-      res.json(
-        {"estatus":"Clave vencida",
-        "vecido":true}
-        );
-    }
-    else
-    {
+app.post('/productos', verificaTk, (req, res) => {
+  jwt.verify(req.token, secret, (err, data) => {
+    if (err) {
+      res.json({
+        "estatus": "Clave vencida",
+        "vecido": true
+      });
+    } else {
       //preparar la query 
-      let sql ="select producto,total from  ";
-      if(req.body.tabla!=null) sql=sql+req.body.tabla;
-      if(req.body.tipo!=null) sql=sql+" where tipo = '" + req.body.tipo+"'"
+      let sql = "select producto,total from  ";
+      if (req.body.tabla != null) sql = sql + req.body.tabla;
+      if (req.body.tipo != null) sql = sql + " where tipo = '" + req.body.tipo + "'"
       console.log(sql);
-      mysqlConnection.query(sql,function(error,result,fields)
-      {
+      mysqlConnection.query(sql, function (error, result, fields) {
         res.json(result);
       });
     }
@@ -173,26 +151,20 @@ app.post('/productos', verificaTk, (req,res) =>
 
 });
 
-app.post('/valores', verificaTk, (req,res) =>
-{
-  jwt.verify(req.token,secret,(err,data)=>
-  {
-    if(err)
-    {
-      res.json(
-        {"estatus":"Clave vencida",
-        "vecido":true}
-        );
-    }
-    else
-    {
+app.post('/valores', verificaTk, (req, res) => {
+  jwt.verify(req.token, secret, (err, data) => {
+    if (err) {
+      res.json({
+        "estatus": "Clave vencida",
+        "vecido": true
+      });
+    } else {
       //preparar la query 
-      let sql ="select total from  ";
-      if(req.body.tabla!=null) sql=sql+req.body.tabla;
-      if(req.body.tipo!=null) sql=sql+" where tipo = '" + req.body.tipo+"'"
+      let sql = "select total from  ";
+      if (req.body.tabla != null) sql = sql + req.body.tabla;
+      if (req.body.tipo != null) sql = sql + " where tipo = '" + req.body.tipo + "'"
       console.log(sql);
-      mysqlConnection.query(sql,function(error,result,fields)
-      {
+      mysqlConnection.query(sql, function (error, result, fields) {
         res.json(result);
       });
     }
@@ -201,23 +173,18 @@ app.post('/valores', verificaTk, (req,res) =>
 
 });
 
-app.post('/cm-inver',verificaTk,(req,res)=>
-{
-  jwt.verify(req.token,secret,(err,data)=>{
-    if(err)
-    {
-      res.json(
-        {"estatus":"Clave vencida",
-        "vecido":true}
-        );
-    }
-    else
-    {
-      var id=parseInt(req.body.id)
-      var sql="select c.* from user_cms uc,usuarios u,cms c where uc.id_user=u.id_user and c.id_cm=uc.id_cm and u.id_user="+id
+app.post('/cm-inver', verificaTk, (req, res) => {
+  jwt.verify(req.token, secret, (err, data) => {
+    if (err) {
+      res.json({
+        "estatus": "Clave vencida",
+        "vecido": true
+      });
+    } else {
+      var id = parseInt(req.body.id)
+      var sql = "select c.* from user_cms uc,usuarios u,cms c where uc.id_user=u.id_user and c.id_cm=uc.id_cm and u.id_user=" + id
       console.log(sql);
-      mysqlConnection.query(sql,function(error,result,fields)
-      {
+      mysqlConnection.query(sql, function (error, result, fields) {
         res.json(result);
       });
     }
@@ -225,71 +192,101 @@ app.post('/cm-inver',verificaTk,(req,res)=>
   });
 });
 
-app.get('/formulaView/:cm/',verificaTk,(req,res)=>
-{
-  jwt.verify(req.token,secret,(err,data)=>{
+app.get('/formulaView/:cm/', verificaTk, (req, res) => {
+  jwt.verify(req.token, secret, (err, data) => {
 
-  if(err)
-  {
-    res.json(
-      {"estatus":"Clave vencida",
-      "vecido":true}
-      );
-  }
-    else
-    {
+    if (err) {
+      res.json({
+        "estatus": "Clave vencida",
+        "vecido": true
+      });
+    } else {
       var cm;
-      cm=req.params.cm;
-      mysqlConnection.query("select id_cm from cms where nom2=?",[cm],function(error,result,fields)
-      {
-        mysqlConnection.query("select DISTINCT  p.producto, f.cantidad from productos p ,cms c,formulas f where f.id_producto=p.id_producto and f.id_cm=?",[result[0].id_cm],function(error,row,fields)
-          {
-            if(error)
-            res.json({"error":true})
-            else
+      cm = req.params.cm;
+      mysqlConnection.query("select id_cm from cms where nom2=?", [cm], function (error, result, fields) {
+        mysqlConnection.query("select DISTINCT  p.producto, f.cantidad from productos p ,cms c,formulas f where f.id_producto=p.id_producto and f.id_cm=?", [result[0].id_cm], function (error, row, fields) {
+          if (error)
+            res.json({
+              "error": true
+            })
+          else
             res.json(row);
-          });
+        });
       });
     }
   });
 });
 
-app.post('/formulaadd',verificaTk,(req,res)=>
-{
-  if(err)
-  {
-    res.json(
-      {"estatus":"Clave vencida",
-      "vecido":true}
-      );
-  }
-  else
-  {
-    
+app.post('/formulaadd', verificaTk, (req, res) => {
+  if (err) {
+    res.json({
+      "estatus": "Clave vencida",
+      "vecido": true
+    });
+  } else {
+
   }
 });
- 
-app.post('/addconsumo',verificaTk,(req,res)=>
-{
-  jwt.verify(req.token,secret,(err,data)=>{
-  if(err)
-  {
-    res.json(
-      {"estatus":"Clave vencida",
-      "vecido":true}
-      );
-  }
-  else
-  {
-      var productos=req.body.productos;
-      var cantidades=req.body.cantidades;
-      console.log("hola")
-      console.log(req.body);
-      for (i in productos)
-      {
-        console.log(productos[i]+","+ cantidades[i]+" "+req.body.cm )
+
+app.post('/addconsumo', verificaTk, (req, res) => {
+  jwt.verify(req.token, secret, (err, data) => {
+    if (err) {
+      res.json({
+        "estatus": "Clave vencida",
+        "vecido": true
+      });
+    } else {
+      var productos = req.body.productos;
+      var cantidades = req.body.cantidades;
+
+      let sql = "select id_producto,producto from productos where "
+      for (var i in productos) {
+        sql += "producto='" + productos[i] + "' or ";
       }
-      res.send("ok");
-  }
-});
+      //console.log(sql.substr(0, sql.length - 3));
+      sql = sql.substr(0, sql.length - 3)
+      var productos_totales = [];
+      var t
+      for (let j in cantidades)
+        productos_totales.push({
+          "producto": productos[j],
+          "cantidades": cantidades[j],
+        })
+
+      productos_totales = (productos_totales.sort(function (a, b) {
+        return ((a.producto < b.producto) ? -1 : ((a.producto > b.producto) ? 1 : 0));
+      }));
+      productos = productos.sort();
+      mysqlConnection.query(sql, function (error, result, fields) {
+        let consumo = [];
+        for (let j in result) {
+          //console.log(result[j].producto,","+productos[j])
+          //console.log(result[productos.indexOf(result[j].producto)].id_producto)
+          consumo.push({
+            "id_producto": result[j].id_producto,
+            "cantidad": productos_totales[productos.indexOf(result[j].producto)].cantidades,
+            "id_cm": 1,
+            "fecha": moment().format().substr(0, 10)
+          })
+        }
+        let x = 0;
+        for (let j in consumo)
+          mysqlConnection.query("insert into consumocm1 (id_producto,cantidad ,id_cm,fecha) Values(?,?,?,?)", [consumo[j].id_producto, consumo[j].cantidad, consumo[j].id_cm, consumo[j].fecha], function (error, row, field) {
+            if (error)
+              x = 1
+          });
+        if (x == 0)
+          res.json(
+            {
+            "error": false,
+            "status": "Se aplico la formula"
+          })
+        else
+          res.json({
+            "error": true,
+            "status": error
+          })
+      });
+    }
+  });
 });

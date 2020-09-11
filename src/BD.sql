@@ -705,3 +705,8 @@ insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERS0004',100
 insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERL0007',2,1,'2020-08-31 ');
 insert into consumocm1 (id_producto,cantidad,id_cm,fecha)  Values('FERS0014',1.5,1,'2020-08-31 ');
 
+
+select id_producto from productos where producto='Acido Nitrico al 55%' or producto='Acido Sulfurico al 98%' or producto='Quelsel mix+TI' or producto='Acido Fosforico Ambar al 85%' or producto='Fitosal Raiz' or producto='Sulfato de Magnesio' or producto='Sulfato de Potasio' or producto='MKP' or producto='Newquel Ca B'
+
+
+insert into consumocm1 (id_producto,cantidad,id_cm,fecha) Values(  'FERL0010', 50,  1, '2020-09-11')
