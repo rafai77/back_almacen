@@ -290,3 +290,24 @@ app.post('/addconsumo', verificaTk, (req, res) => {
     }
   });
 });
+
+
+app.post('/Consumo',verificaTk,(req,res)=>
+{
+  jwt.verify(req.token, secret, (err, data) => {
+  if(err)
+  res.json({
+    "estatus": "Clave vencida",
+    "vecido": true
+  });
+  else{
+    mysqlConnection.query("Select x.fecha,p.productos from productos p,consumocm1 x where x.id_producto=p.id_producto and fecha=?",[moment().format().substr(0, 10)],function(error,data,field)
+    {
+      console.log(data)
+      res.json(data);
+    });
+
+  }
+
+  })
+});
