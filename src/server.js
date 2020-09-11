@@ -114,7 +114,7 @@ app.post('/datos', verificaTk, (req, res) => {
       sql = sql + " where  p.id_producto=x.id_producto"
       if (req.body.tipo != "ls") sql = sql + " and tipo = '" + req.body.tipo + "' "
       sql = sql + " order by x.total DESC"
-      console.log(sql);
+      //console.log(sql);
       mysqlConnection.query(sql, function (error, result, fields) {
         if (!error)
           res.json(result);
@@ -183,7 +183,7 @@ app.post('/cm-inver', verificaTk, (req, res) => {
     } else {
       var id = parseInt(req.body.id)
       var sql = "select c.* from user_cms uc,usuarios u,cms c where uc.id_user=u.id_user and c.id_cm=uc.id_cm and u.id_user=" + id
-      console.log(sql);
+      //console.log(sql);
       mysqlConnection.query(sql, function (error, result, fields) {
         res.json(result);
       });
@@ -238,12 +238,14 @@ app.post('/addconsumo', verificaTk, (req, res) => {
     } else {
       var productos = req.body.productos;
       var cantidades = req.body.cantidades;
-
+      var cm=""
+      if(req.body.cm=="consumocm1")
+        cm="cm1"
       let sql = "select id_producto,producto from productos where "
       for (var i in productos) {
         sql += "producto='" + productos[i] + "' or ";
       }
-      //console.log(sql.substr(0, sql.length - 3));
+      console.log(sql.substr(0, sql.length - 3));
       sql = sql.substr(0, sql.length - 3)
       var productos_totales = [];
       var t
@@ -269,28 +271,40 @@ app.post('/addconsumo', verificaTk, (req, res) => {
             "fecha": moment().format().substr(0, 10)
           })
         }
-        let x = 0;
+        var x = 0;
+        var t=""
         for (let j in consumo)
-          mysqlConnection.query("insert into consumocm1 (id_producto,cantidad ,id_cm,fecha) Values(?,?,?,?)", [consumo[j].id_producto, consumo[j].cantidad, consumo[j].id_cm, consumo[j].fecha], function (error, row, field) {
-            if (error)
-              x = 1
-          });
-        if (x == 0)
-          res.json(
+        {
+         if(! agragarconsumo(consumo[j])) 
             {
-            "error": false,
-            "status": "Se aplico la formula"
-          })
-        else
-          res.json({
-            "error": true,
-            "status": error
-          })
+              x=1;
+              break;
+            }
+            
+        }
+        res.end();
+         
+
+     
       });
     }
   });
 });
 
+function agragarconsumo(consumo)
+{
+  mysqlConnection.query("insert into consumocm1 (id_producto,cantidad ,id_cm,fecha) Values(?,?,?,?)", [consumo.id_producto, consumo.cantidad, consumo.id_cm, consumo.fecha], function (er, row, field) {
+    // console.log(er)
+     if (er!=null)
+     {
+      return true;
+     }
+     else
+     {
+       return false;
+     }
+   });
+}
 
 app.post('/Consumo',verificaTk,(req,res)=>
 {
@@ -301,9 +315,11 @@ app.post('/Consumo',verificaTk,(req,res)=>
     "vecido": true
   });
   else{
-    mysqlConnection.query("Select x.fecha,p.productos from productos p,consumocm1 x where x.id_producto=p.id_producto and fecha=?",[moment().format().substr(0, 10)],function(error,data,field)
+    console.log(req.body);
+    
+    mysqlConnection.query( `Select DATE_FORMAT(x.fecha ,'%Y-%m-%d')as fecha,p.producto,x.cantidad from productos p,${req.body.cm} x where x.id_producto=p.id_producto and fecha BETWEEN ? and ?`,[req.body.f1.substr(0,10),req.body.f2.substr(0,10)],function(error,data,field)
     {
-      console.log(data)
+     console.log(error)
       res.json(data);
     });
 
