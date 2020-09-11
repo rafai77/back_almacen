@@ -272,37 +272,39 @@ app.post('/addconsumo', verificaTk, (req, res) => {
           })
         }
         var x = 0;
-        var t=""
+        var t;
+        var respuesta=true;
         for (let j in consumo)
         {
-         if(! agragarconsumo(consumo[j])) 
+          
+          t=agragarconsumo(consumo[j],respuesta);
+          
+          console.log("sa",t)
+         if(!t) 
             {
               x=1;
-              break;
+              
             }
-            
         }
-        res.end();
-         
-
-     
+        console.log(x)
+        if(x==1)
+         res.json({"error":true,"status":"Ya aplico formula el dia de hoy\n ó  no tiene suficiente producto verifique "});
+        if(x==0)
+          res.json({"error":false,"status":"Se aplico formula"});         
       });
     }
   });
 });
 
-function agragarconsumo(consumo)
+function trueorflase(x)
+{
+  return x
+}
+function agragarconsumo(consumo,respuesta)
 {
   mysqlConnection.query("insert into consumocm1 (id_producto,cantidad ,id_cm,fecha) Values(?,?,?,?)", [consumo.id_producto, consumo.cantidad, consumo.id_cm, consumo.fecha], function (er, row, field) {
-    // console.log(er)
-     if (er!=null)
-     {
-      return true;
-     }
-     else
-     {
-       return false;
-     }
+    
+      return trueorflase(respuesta);
    });
 }
 
