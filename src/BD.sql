@@ -124,7 +124,7 @@ INSERT INTO cm1(id_producto, total)VALUES ("FERS0040", 425.000);
 UPDATE cm1 SET total=2250 where id_producto="FERL0001"; 
 UPDATE cm1 SET total=2440 where id_producto="FERL0002"; 
 UPDATE cm1 SET total=38 where id_producto="FERL0007"; 
-UPDATE cm1 SET total=0 where id_producto="FERL0010"; 
+UPDATE cm1 SET total=1000 where id_producto="FERL0010"; 
 UPDATE cm1 SET total=335.5 where id_producto="FERL0012"; 
 UPDATE cm1 SET total=0 where id_producto="FERS0001"; 
 UPDATE cm1 SET total=5575 where id_producto="FERS0002"; 
@@ -710,3 +710,11 @@ select id_producto from productos where producto='Acido Nitrico al 55%' or produ
 
 
 insert into consumocm1 (id_producto,cantidad,id_cm,fecha) Values(  'FERL0010', 50,  1, '2020-09-11')
+
+
+ UPDATE cm1 set  total=-50 Where id_producto=FERL0010;
+
+ UPDATE cm1 set  total=2150 Where id_producto= 'FERL0001' ;
+
+  UPDATE cm1 set  total=950 Where id_producto= 'FERL0010';  UPDATE cm1 set  total=2150 Where id_producto= 'FERL0001';  UPDATE cm1 set  total=2165 Where id_producto= 'FERL0002';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0015';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0001';  UPDATE cm1 set  total=335.5 Where id_producto= 'FERL0012';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0029';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0028';  UPDATE cm1 set  total=36 Where id_producto= 'FERL0007';  UPDATE cm1 set  total=725 Where id_producto= 'FERS0036';  UPDATE cm1 set  total=180 Where id_producto= 'FERS0039'; 
+ 

@@ -236,16 +236,22 @@ app.post('/addconsumo', verificaTk, (req, res) => {
         "vecido": true
       });
     } else {
+
+    
       var productos = req.body.productos;
       var cantidades = req.body.cantidades;
+      var producto_cantidades_inven=req.body.datosA.sort(function (a, b) {
+        return ((a.producto < b.producto) ? -1 : ((a.producto > b.producto) ? 1 : 0));
+      });
+    
       var cm=""
-      if(req.body.cm=="consumocm1")
-        cm="cm1"
+      if(req.body.cm=="cm1")
+        cm="consumocm1"
       let sql = "select id_producto,producto from productos where "
       for (var i in productos) {
         sql += "producto='" + productos[i] + "' or ";
       }
-      console.log(sql.substr(0, sql.length - 3));
+     // console.log(sql.substr(0, sql.length - 3));
       sql = sql.substr(0, sql.length - 3)
       var productos_totales = [];
       var t
@@ -255,10 +261,27 @@ app.post('/addconsumo', verificaTk, (req, res) => {
           "cantidades": cantidades[j],
         })
 
+
       productos_totales = (productos_totales.sort(function (a, b) {
         return ((a.producto < b.producto) ? -1 : ((a.producto > b.producto) ? 1 : 0));
       }));
       productos = productos.sort();
+      
+        //restar valores 
+        var nuevoalmacen=[];
+        
+        for(let i in productos_totales)
+        {
+          for (let j in producto_cantidades_inven)
+          {
+            if(producto_cantidades_inven[j].producto==productos_totales[i].producto)
+              {
+                producto_cantidades_inven[j].total=producto_cantidades_inven[j].total-productos_totales[i].cantidades
+              }
+          }
+        }
+      
+        //
       mysqlConnection.query(sql, function (error, result, fields) {
         let consumo = [];
         for (let j in result) {
@@ -266,23 +289,43 @@ app.post('/addconsumo', verificaTk, (req, res) => {
           //console.log(result[productos.indexOf(result[j].producto)].id_producto)
           consumo.push([
              result[j].id_producto,
-            productos_totales[productos.indexOf(result[j].producto)].cantidades,
-            1,
-             moment().format().substr(0, 10)]
+            productos_totales[productos.indexOf(result[j].producto)].cantidades,1,moment().format().substr(0, 10)]
           )
         }
       
         var respuesta=true;
-        // consumo=JSON.stringify(consumo)
-        // consumo=JSON.parse(consumo)
-        // console.log(consumo)
-        
         mysqlConnection.query("insert into consumocm1 (id_producto,cantidad ,id_cm,fecha) Values ?", [consumo], function (er, row, field) {
     
           if(er!=null)
-          res.json({"error":true,"status":"Ya aplico formula el dia de hoy\n ó  no tiene suficiente producto verifique "});
+          {
+            res.json({"error":true,"status":"Ya aplico formula el dia de hoy\n ó  no tiene suficiente producto verifique "});
+          }
+          
           else
-           res.json({"error":false,"status":"Se aplico formula"});       
+          {
+            console.log(cm,"sfddsffddsffdsfsd")
+            let sqlUpdatecm=[];
+            for (let j in producto_cantidades_inven)
+              sqlUpdatecm+=(` UPDATE ${req.body.cm} set `+" total="+producto_cantidades_inven[j].total +" Where id_producto= '"+producto_cantidades_inven[j].id_producto +"'; ");
+            
+            console.log(sqlUpdatecm)
+            
+            mysqlConnection.query(sqlUpdatecm,function(err,row,field)
+            {
+              console.log(err)
+              if(err==null)
+              {
+                //borrar de registro 
+                res.json({"error":true,"status":"Ya aplico formula el dia de hoy\n ó  no tiene suficiente producto verifique "});
+              }
+              else
+              {
+                res.json({"error":false,"status":"Se aplico formula y se actualizo su inventario"});       
+              }
+            } );
+            
+          }
+           
        });
   
          
@@ -301,11 +344,11 @@ app.post('/Consumo',verificaTk,(req,res)=>
     "vecido": true
   });
   else{
-    console.log(req.body);
+   //console.log(req.body);
     
     mysqlConnection.query( `Select DATE_FORMAT(x.fecha ,'%Y-%m-%d')as fecha,p.producto,x.cantidad from productos p,${req.body.cm} x where x.id_producto=p.id_producto and fecha BETWEEN ? and ?`,[req.body.f1.substr(0,10),req.body.f2.substr(0,10)],function(error,data,field)
     {
-     console.log(error)
+     //console.log(error)
       res.json(data);
     });
 
