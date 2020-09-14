@@ -228,7 +228,7 @@ app.post('/formulaadd', verificaTk, (req, res) => {
   }
 });
 
-app.post('/addconsumo', verificaTk, (req, res) => {
+app.post('/addconsumo', verificaTk, async (req, res) => {
   jwt.verify(req.token, secret, (err, data) => {
     if (err) {
       res.json({
@@ -282,47 +282,32 @@ app.post('/addconsumo', verificaTk, (req, res) => {
         }
       
         //
+    
       mysqlConnection.query(sql, function (error, result, fields) {
         let consumo = [];
         for (let j in result) {
-          //console.log(result[j].producto,","+productos[j])
-          //console.log(result[productos.indexOf(result[j].producto)].id_producto)
           consumo.push([
              result[j].id_producto,
             productos_totales[productos.indexOf(result[j].producto)].cantidades,1,moment().format().substr(0, 10)]
           )
         }
       
-        var respuesta=true;
+       
         mysqlConnection.query("insert into consumocm1 (id_producto,cantidad ,id_cm,fecha) Values ?", [consumo], function (er, row, field) {
     
           if(er!=null)
           {
+            
             res.json({"error":true,"status":"Ya aplico formula el dia de hoy\n ó  no tiene suficiente producto verifique "});
           }
           
           else
           {
-            console.log(cm,"sfddsffddsffdsfsd")
+            
             let sqlUpdatecm=[];
             for (let j in producto_cantidades_inven)
-              sqlUpdatecm+=(` UPDATE ${req.body.cm} set `+" total="+producto_cantidades_inven[j].total +" Where id_producto= '"+producto_cantidades_inven[j].id_producto +"'; ");
-            
-            console.log(sqlUpdatecm)
-            
-            mysqlConnection.query(sqlUpdatecm,function(err,row,field)
-            {
-              console.log(err)
-              if(err==null)
-              {
-                //borrar de registro 
-                res.json({"error":true,"status":"Ya aplico formula el dia de hoy\n ó  no tiene suficiente producto verifique "});
-              }
-              else
-              {
-                res.json({"error":false,"status":"Se aplico formula y se actualizo su inventario"});       
-              }
-            } );
+              actualizarproducto(` UPDATE ${req.body.cm} set `+" total="+producto_cantidades_inven[j].total +" Where id_producto= '"+producto_cantidades_inven[j].id_producto +"';");
+              
             
           }
            
@@ -330,9 +315,19 @@ app.post('/addconsumo', verificaTk, (req, res) => {
   
          
       });
+
     }
   });
 });
+
+async function actualizarproducto (query) {
+  try{
+  const r= await mysqlConnection.query(query);
+  }
+  catch{
+    console.log("error")
+  }
+}
 
 
 app.post('/Consumo',verificaTk,(req,res)=>
