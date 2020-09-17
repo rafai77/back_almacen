@@ -7,6 +7,8 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
+const webpush=require('web-push');
+
 const mysqlConnection = require('./base');
 var moment = require('moment'); // para fechas
 const tempfile = require('tempfile');
@@ -24,6 +26,13 @@ app.options('*', cors());
 const IV_LENGTH = 16
 
 crypto = require('crypto');
+
+
+publicKey= 'BPu9H4WQdDC2Ll6h7KQNrQqOs1LzRL5aXG-oNhr4raRIdwKdxPugDyl6FuYSJzvpwI0M6j35q_obeEbzrriKjzU';
+privateKey= 'DXwZvsh0r__PjGqkGcjJuh4wV1MANvypO9vWDzcd2Mk';
+webpush.setVapidDetails('mailto:rafac11@hotmail.com',publicKey,privateKey);
+
+
 
 
 app.listen(PORT, () => console.log(`Server is up on port: ${PORT}`));
@@ -108,6 +117,7 @@ app.post('/datos', verificaTk, (req, res) => {
         "vecido": true
       });
     } else {
+      console.log(req.body,"sd")
       //preparar la query 
       let sql = "select p.id_producto,p.producto,x.total,p.tipo,p.unidad from productos p ,";
       sql = sql + req.body.tabla + " x";
@@ -115,7 +125,9 @@ app.post('/datos', verificaTk, (req, res) => {
       if (req.body.tipo != "ls") sql = sql + " and tipo = '" + req.body.tipo + "' "
       sql = sql + " order by x.total DESC"
       //console.log(sql);
+     
       mysqlConnection.query(sql, function (error, result, fields) {
+        
         if (!error)
           res.json(result);
         else
@@ -202,8 +214,12 @@ app.get('/formulaView/:cm/', verificaTk, (req, res) => {
       });
     } else {
       var cm;
+      
       cm = req.params.cm;
+      
       mysqlConnection.query("select id_cm from cms where nom2=?", [cm], function (error, result, fields) {
+        console.log(result,error)
+        if(result!=0 )
         mysqlConnection.query("select DISTINCT  p.producto, f.cantidad from productos p ,cms c,formulas f where f.id_producto=p.id_producto and f.id_cm=?", [result[0].id_cm], function (error, row, fields) {
           if (error)
             res.json({
@@ -212,6 +228,8 @@ app.get('/formulaView/:cm/', verificaTk, (req, res) => {
           else
             res.json(row);
         });
+        else
+        res.json({"Error":"no se pudo"})
       });
     }
   });
@@ -351,3 +369,35 @@ app.post('/Consumo',verificaTk,(req,res)=>
 
   })
 });
+
+app.post('/not',(req,res)=>
+{
+  console.log(req.body,"siiii")
+  //webpush.sendNotification(req.body,JSON.stringify(payload))
+  res.json(req.body);
+
+});
+
+
+const sub={
+  endpoint:"https://fcm.googleapis.com/fcm/send/eYvzqF9iiXQ:APA91bH6VgFuwRvnRmkcWi88k5PFez3bK-1KjZPvCZDjv0BYueRXGdBOqEtz7KSQRSXBvnkxZB3vTJG1XNpEDcXNs3fM7KdQggI7ELQ4QLH9UsHatbOGI62pzGVyuwfKxrfyzCHVBkss",
+  expirationTime:null,
+  keys:{
+    p256dh:"BL8Oie6UVAN_ye2vnWevNomxjgkk1RL3i7s3Wovh48SP9Jd0mzurhhT2bRoo5TBvDwlLAHv-TCyALNO1LufHSQA",
+    auth:"h1VWOsZ3kjx2aeMHhGaXlw",
+  },
+};
+//const payload = JSON.stringify({ title: 'test' });
+const payload=
+{
+  notification:{
+   
+    data:{url:"www.youtube.com",},
+    tite:"hola",
+    vibrate:[110,50,50],
+  },
+}
+//webpush.sendNotification(sub,JSON.stringify(payload)).then(res=>console.log(res,"bin")).catch(er=>console.log(er,"mal"))
+
+
+
