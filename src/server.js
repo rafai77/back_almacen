@@ -401,3 +401,21 @@ const payload=
 
 
 
+app.post('addPedidos',verificaTk,(req,res)=>
+{
+  jwt.verify(req.token, secret, (err, data) => {
+    if(err)
+    res.json({
+      "estatus": "Clave vencida",
+      "vecido": true
+    });
+    else
+    {
+      console.log(req.body);
+        
+
+    }
+  });
+
+
+})

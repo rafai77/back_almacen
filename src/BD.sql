@@ -718,3 +718,22 @@ insert into consumocm1 (id_producto,cantidad,id_cm,fecha) Values(  'FERL0010', 5
  UPDATE cm1 set  total=950 Where id_producto= 'FERL0010';  UPDATE cm1 set  total=2150 Where id_producto= 'FERL0001';  UPDATE cm1 set  total=2165 Where id_producto= 'FERL0002';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0015';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0001';  UPDATE cm1 set  total=335.5 Where id_producto= 'FERL0012';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0029';  UPDATE cm1 set 
  total=0 Where id_producto= 'FERS0028';  UPDATE cm1 set  total=36 Where id_producto= 'FERL0007';  UPDATE cm1 set  total=725 Where id_producto= 'FERS0036';  UPDATE cm1 set  total=180 Where id_producto= 'FERS0039';  
 UPDATE cm1 set  total=1407 Where id_producto= 'FERS0004';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0032';  UPDATE cm1 set  total=26.8 Where id_producto= 'FERS0014';  UPDATE cm1 set  total=498 Where id_producto= 'FERS0034';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0030';  UPDATE cm1 set  total=5575 Where id_producto= 'FERS0002';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0003';  UPDATE cm1 set  total=6310 Where id_producto= 'FERS0010';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0007';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0038';  UPDATE cm1 set  total=1125 Where id_producto= 'FERS0019';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0031';  UPDATE cm1 set  total=1500 Where id_producto= 'FERS0008';  UPDATE cm1 set  total=1760 Where id_producto= 'FERS0009';  UPDATE cm1 set  total=0 Where id_producto= 'FERS0040'; 
+
+create TABLE  pedido_producto (
+  id_pp int not null AUTO_INCREMENT PRIMARY KEY,
+  id_producto varchar(50) NOT NULL,
+  id_pedido int not null,
+FOREIGN KEY(id_producto) REFERENCES productos (id_producto),
+FOREIGN KEY(id_pedido) REFERENCES pedidos (id_pedido)
+
+);
+
+
+CREATE table pedidos (
+  id_pedido int not null AUTO_INCREMENT PRIMARY KEY,
+  status VARCHAR (10) not null,
+  id_cm int not null,
+  FOREIGN KEY(id_cm) REFERENCES cms (id_cm)
+
+
+);
