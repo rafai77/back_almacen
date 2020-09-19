@@ -737,3 +737,6 @@ CREATE table pedidos (
 
 
 );
+
+insert into pedidos (id_cm,status) VALUES(,'Revision') 
+select id_cm from cms where nom2='cm1'

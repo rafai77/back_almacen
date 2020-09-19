@@ -401,7 +401,7 @@ const payload=
 
 
 
-app.post('addPedidos',verificaTk,(req,res)=>
+app.post('/addPedidos',verificaTk,(req,res)=>
 {
   jwt.verify(req.token, secret, (err, data) => {
     if(err)
@@ -412,7 +412,14 @@ app.post('addPedidos',verificaTk,(req,res)=>
     else
     {
       console.log(req.body);
+      var datos=req.body.datos;
+      var cm=req.body.cm;
+      mysqlConnection.query("insert into pedidos (id_cm,status) VALUES((select id_cm from cms where nom2=?),'Revision'); SELECT LAST_INSERT_ID();",[cm],(error,data,field)=>
+      {
+        console.log(error,data)
         
+      })
+      res.end()
 
     }
   });
