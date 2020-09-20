@@ -411,7 +411,18 @@ jwt.verify(req.token, secret, (err, data) => {
   });
   else
   {
-    
+   // console.log(req.body,"cuerpo")
+    mysqlConnection.query("select p.id_cm,c.nom2,pr.producto , pp.cantidad ,  DATE_FORMAT(p.fecha ,'%Y-%m-%d')as fecha, p.status  from cms c,pedido_producto pp, pedidos p,productos pr  where p.id_cm=((select id_cm from cms where nom2=?)) and c.id_cm=p.id_cm and pp.id_pedido=p.id_pedido and pp.id_producto=pr.id_producto",[req.body.cm,],(error,data,field)=>
+    {
+      console.log(error,data)
+      if(error==null)
+      res.json(data)
+      else
+      res.json({
+        error:true,
+        mensaje:"erro en los pedidos"
+      })
+    });
   }
 
 });
