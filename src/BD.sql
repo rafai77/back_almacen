@@ -121,7 +121,7 @@ INSERT INTO cm1(id_producto, total)VALUES ("FERS0038", 600.000);
 INSERT INTO cm1(id_producto, total)VALUES ("FERS0039", 725.000);
 INSERT INTO cm1(id_producto, total)VALUES ("FERS0040", 425.000);
 
-UPDATE cm1 SET total=2250 where id_producto="FERL0001"; 
+UPDATE cm1 SET total=5000 where id_producto="FERL0001"; 
 UPDATE cm1 SET total=2440 where id_producto="FERL0002"; 
 UPDATE cm1 SET total=38 where id_producto="FERL0007"; 
 UPDATE cm1 SET total=1000 where id_producto="FERL0010"; 
@@ -137,7 +137,7 @@ UPDATE cm1 SET total=6310 where id_producto="FERS0010";
 UPDATE cm1 SET total=28.3 where id_producto="FERS0014"; 
 UPDATE cm1 SET total=0 where id_producto="FERS0015"; 
 UPDATE cm1 SET total=1137.5 where id_producto="FERS0019"; 
-UPDATE cm1 SET total=0 where id_producto="FERS0028"; 
+UPDATE cm1 SET total=750 where id_producto="FERS0028"; 
 UPDATE cm1 SET total=0 where id_producto="FERS0029"; 
 UPDATE cm1 SET total=0 where id_producto="FERS0030"; 
 UPDATE cm1 SET total=0 where id_producto="FERS0031"; 
