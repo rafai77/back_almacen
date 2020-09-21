@@ -400,6 +400,24 @@ const payload=
 //webpush.sendNotification(sub,JSON.stringify(payload)).then(res=>console.log(res,"bin")).catch(er=>console.log(er,"mal"))
 
 
+app.post("/viewPedidos",verificaTk,(req,res)=>
+{
+jwt.verify(req.token, secret, (err, data) => {
+  if(err)
+  res.json(
+    {
+    "estatus": "Clave vencida",
+    "vecido": true
+  });
+  else
+  {
+    
+  }
+
+});
+});
+
+
 
 app.post('/addPedidos',verificaTk,(req,res)=>
 {
