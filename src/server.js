@@ -411,15 +411,45 @@ app.post('/addPedidos',verificaTk,(req,res)=>
     });
     else
     {
-      console.log(req.body);
+     // console.log(req.body);
       var datos=req.body.datos;
       var cm=req.body.cm;
-      mysqlConnection.query("insert into pedidos (id_cm,status) VALUES((select id_cm from cms where nom2=?),'Revision'); SELECT LAST_INSERT_ID();",[cm],(error,data,field)=>
+      var datofinal=[]
+     
+      console.log(datofinal)
+      var f1=moment()
+      f1=(f1.toDate().toISOString().substr(0,10))
+      mysqlConnection.query("insert into pedidos (id_cm,status,fecha) VALUES((select id_cm from cms where nom2=?),'Revision',?)",[cm,f1],(error,data,field)=>
       {
-        console.log(error,data)
+        if(error!= null)
+        {
+          res.json({
+            "error":true,
+            "mensaje":"no se puedo añadir ese pedido"
+          })
+        }
+        else
+        {
+        mysqlConnection.query("select id_pedido from pedidos where fecha=? and id_cm=(select id_cm from cms where nom2=?)",[f1,cm],(error,id,field)=>
+        {
+            for (let i in datos)
+             datofinal.push( [id[0]["id_pedido"],datos[i].id,datos[i].value] )
+            console.log(datofinal)
+            mysqlConnection.query("insert pedido_producto (id_pedido,id_producto,cantidad) values ? ",[datofinal],(err,data)=>
+            {
+              res.json(
+                {
+                  error:false,
+                  mensaje:"Pedido listo"
+                }
+              )
+            })
+        });
+        
+        }
         
       })
-      res.end()
+
 
     }
   });
