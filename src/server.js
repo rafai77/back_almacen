@@ -411,10 +411,11 @@ jwt.verify(req.token, secret, (err, data) => {
   });
   else
   {
-   // console.log(req.body,"cuerpo")
-    mysqlConnection.query("select p.id_cm,c.nom2,pr.producto , pp.cantidad ,  DATE_FORMAT(p.fecha ,'%Y-%m-%d')as fecha, p.status  from cms c,pedido_producto pp, pedidos p,productos pr  where p.id_cm=((select id_cm from cms where nom2=?)) and c.id_cm=p.id_cm and pp.id_pedido=p.id_pedido and pp.id_producto=pr.id_producto",[req.body.cm,],(error,data,field)=>
+
+    //console.log(req.body,"cuerpo")
+    mysqlConnection.query("select p.status ,p.id_cm,c.nom2,pr.producto , pp.cantidad ,  DATE_FORMAT(p.fecha ,'%Y-%m-%d')as fecha, p.status  from cms c,pedido_producto pp, pedidos p,productos pr  where p.id_cm=((select id_cm from cms where nom2=?)) and c.id_cm=p.id_cm and pp.id_pedido=p.id_pedido and pp.id_producto=pr.id_producto",[req.body.cm,],(error,data,field)=>
     {
-      console.log(error,data)
+      //console.log(error,data)
       if(error==null)
       res.json(data)
       else
@@ -428,7 +429,29 @@ jwt.verify(req.token, secret, (err, data) => {
 });
 });
 
-
+app.post("/changestatus",verificaTk,(req,res)=>
+{
+  jwt.verify(req.token , secret ,(err,data)=>
+  {
+    if(err)
+    res.json({
+      "estatus": "Clave vencida",
+      "vecido": true
+    });
+    else{
+      console.log(req.body)
+      mysqlConnection.query("Update pedidos set status=? where fecha=? and id_cm=((Select id_cm from cms where nom2=?))",[req.body.status,req.body.info[1],req.body.info[0]],(error,data)=>
+      {
+       // console.log(data,error)
+        if(error==null)
+         res.json({"error":false,mensaje:"se aprobo "})
+         else
+         res.json({"error":false,mensaje:"No se pudo realizar  "})
+      }
+      );
+    }
+  })
+})
 
 app.post('/addPedidos',verificaTk,(req,res)=>
 {
