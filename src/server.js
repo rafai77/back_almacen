@@ -453,7 +453,7 @@ app.post("/changestatus",verificaTk,(req,res)=>
   })
 })
 
-app.post('/addPedidos',verificaTk,(req,res)=>
+app.post('/addPedidos',verificaTk,(req,res)=> 
 {
   jwt.verify(req.token, secret, (err, data) => {
     if(err)
