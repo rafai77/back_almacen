@@ -411,7 +411,26 @@ app.post("/actualizarPedidos",verificaTk,(req,res)=>
     else
     {
       
+      let con=[]
+     mysqlConnection.query("Update pedidos set status=? where id_pedido=?",[req.body.status,req.body.info[0][2]],(error,data)=>
+     {
+        console.log(error,data)
+          for (var i in req.body.info)
+          {
+            let s="Update pedido_producto  set "
+            s+="cantidad_entrgada"+" = "+req.body.info[i][1] +" where id_pedido="+req.body.info[0][2]+" and " + " id_producto='"+req.body.info[i][0]+"';"
+            con.push(s);
+          }
+          
+        for (let i in con)
+          actualizarproducto(con[i])
+        //console.log(con[i])
+        
+          res.end();
+     })
+
     }
+})
 })
 
 
@@ -428,7 +447,7 @@ jwt.verify(req.token, secret, (err, data) => {
   {
 
     //console.log(req.body,"cuerpo")
-    mysqlConnection.query("select p.status ,p.id_cm,c.nom2,pr.producto , pp.cantidad, pp.cantidad_entrgada,  DATE_FORMAT(p.fecha ,'%Y-%m-%d')as fecha, p.status  from cms c,pedido_producto pp, pedidos p,productos pr  where p.id_cm=((select id_cm from cms where nom2=?)) and c.id_cm=p.id_cm and pp.id_pedido=p.id_pedido and pp.id_producto=pr.id_producto",[req.body.cm,],(error,data,field)=>
+    mysqlConnection.query("select p.status ,p.id_pedido,p.id_cm,c.nom2,pr.producto , pp.cantidad,pp.id_producto, pp.cantidad_entrgada,  DATE_FORMAT(p.fecha ,'%Y-%m-%d')as fecha, p.status  from cms c,pedido_producto pp, pedidos p,productos pr  where p.id_cm=((select id_cm from cms where nom2=?)) and c.id_cm=p.id_cm and pp.id_pedido=p.id_pedido and pp.id_producto=pr.id_producto",[req.body.cm,],(error,data,field)=>
     {
       //console.log(error,data)
       if(error==null)
