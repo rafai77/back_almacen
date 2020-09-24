@@ -734,11 +734,12 @@ CREATE table pedidos (
   status VARCHAR (10) not null,
   id_cm int not null,
   fecha date not null,
-  UNIQUE (fecha),
+  UNIQUE (fecha,id_cm),
   FOREIGN KEY(id_cm) REFERENCES cms (id_cm)
 
 
 );
+
 
 insert into pedidos (id_cm,status) VALUES((select id_cm from cms where nom2='cm1'),'Revision');
 SELECT LAST_INSERT_ID();
@@ -749,3 +750,4 @@ insert pedido_producto (id_pedido,id_producto,cantidad) values `id_pedido` = 15,
 select pr.producto , pp.cantidad , p.fecha, p.status  from pedido_producto pp, pedidos p,productos pr  where p.id_cm=((select id_cm from cms where nom2='cm1')) and pp.id_pedido=p.id_pedido and pp.id_producto=pr.id_producto
 
 
+CREATE UNIQUE INDEX email ON fuinfo(email);

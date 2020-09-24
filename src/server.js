@@ -414,7 +414,7 @@ app.post("/actualizarPedidos",verificaTk,(req,res)=>
       let con=[]
      mysqlConnection.query("Update pedidos set status=? where id_pedido=?",[req.body.status,req.body.info[0][2]],(error,data)=>
      {
-        console.log(error,data)
+        // console.log(error,data)
           for (var i in req.body.info)
           {
             let s="Update pedido_producto  set "
@@ -432,6 +432,37 @@ app.post("/actualizarPedidos",verificaTk,(req,res)=>
     }
 })
 })
+
+
+app.post("/viewPedidosadmin",verificaTk,(req,res)=>
+{
+jwt.verify(req.token, secret, (err, data) => {
+  if(err)
+  res.json(
+    {
+    "estatus": "Clave vencida",
+    "vecido": true
+  });
+  else
+  {
+
+    //console.log(req.body,"cuerpo")
+    mysqlConnection.query("select p.status ,p.id_cm,c.nom2,pr.producto , pp.cantidad,pp.id_producto, pp.cantidad_entrgada,p.id_pedido,  DATE_FORMAT(p.fecha ,'%Y-%m-%d')as fecha, p.status  from cms c,pedido_producto pp, pedidos p,productos pr  where  c.id_cm=p.id_cm and pp.id_pedido=p.id_pedido and pp.id_producto=pr.id_producto order by id_pedido",(error,data,field)=>
+    {
+      //console.log(error,data)
+      if(error==null)
+      res.json(data)
+      else
+      res.json({
+        error:true,
+        mensaje:"erro en los pedidos"
+      })
+    });
+  }
+
+});
+});
+
 
 
 app.post("/viewPedidos",verificaTk,(req,res)=>
@@ -497,12 +528,13 @@ app.post('/addPedidos',verificaTk,(req,res)=>
     });
     else
     {
-     // console.log(req.body);
+      console.log(req.body);
       var datos=req.body.datos;
       var cm=req.body.cm;
       var datofinal=[]
      
-      console.log(datofinal)
+      
+      //console.log(datofinal)
       var f1=moment()
       f1=(f1.toDate().toISOString().substr(0,10))
       mysqlConnection.query("insert into pedidos (id_cm,status,fecha) VALUES((select id_cm from cms where nom2=?),'Revision',?)",[cm,f1],(error,data,field)=>
@@ -519,10 +551,11 @@ app.post('/addPedidos',verificaTk,(req,res)=>
         mysqlConnection.query("select id_pedido from pedidos where fecha=? and id_cm=(select id_cm from cms where nom2=?)",[f1,cm],(error,id,field)=>
         {
             for (let i in datos)
-             datofinal.push( [id[0]["id_pedido"],datos[i].id,datos[i].value] )
+             datofinal.push( [id[0]["id_pedido"],datos[i].id,datos[i].value,0] )
             console.log(datofinal)
-            mysqlConnection.query("insert pedido_producto (id_pedido,id_producto,cantidad) values ? ",[datofinal],(err,data)=>
+            mysqlConnection.query("insert pedido_producto (id_pedido,id_producto,cantidad,cantidad_entrgada) values ? ",[datofinal],(err,data)=>
             {
+              console.log(err,data)
               res.json(
                 {
                   error:false,
