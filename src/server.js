@@ -447,7 +447,7 @@ jwt.verify(req.token, secret, (err, data) => {
   {
 
     //console.log(req.body,"cuerpo")
-    mysqlConnection.query("select p.status ,p.id_pedido,p.id_cm,c.nom2,pr.producto , pp.cantidad,pp.id_producto, pp.cantidad_entrgada,  DATE_FORMAT(p.fecha ,'%Y-%m-%d')as fecha, p.status  from cms c,pedido_producto pp, pedidos p,productos pr  where p.id_cm=((select id_cm from cms where nom2=?)) and c.id_cm=p.id_cm and pp.id_pedido=p.id_pedido and pp.id_producto=pr.id_producto",[req.body.cm,],(error,data,field)=>
+    mysqlConnection.query("select p.status ,p.id_cm,c.nom2,pr.producto , pp.cantidad,pp.id_producto, pp.cantidad_entrgada,p.id_pedido,  DATE_FORMAT(p.fecha ,'%Y-%m-%d')as fecha, p.status  from cms c,pedido_producto pp, pedidos p,productos pr  where p.id_cm=((select id_cm from cms where nom2=?)) and c.id_cm=p.id_cm and pp.id_pedido=p.id_pedido and pp.id_producto=pr.id_producto order by id_pedido",[req.body.cm,],(error,data,field)=>
     {
       //console.log(error,data)
       if(error==null)
