@@ -410,8 +410,10 @@ app.post("/actualizarPedidos",verificaTk,(req,res)=>
     });
     else
     {
-      
+     // console.log(req.body);
+      let datos=req.body.info
       let con=[]
+      let inventario=[]
      mysqlConnection.query("Update pedidos set status=? where id_pedido=?",[req.body.status,req.body.info[0][2]],(error,data)=>
      {
         // console.log(error,data)
@@ -425,6 +427,21 @@ app.post("/actualizarPedidos",verificaTk,(req,res)=>
         for (let i in con)
           actualizarproducto(con[i])
         //console.log(con[i])
+        mysqlConnection.query("Select * from inventario order by id_producto ",(error,data,field)=>
+        {
+          
+          var datos=req.body.info.sort(function (a, b){var n = a[0].toLocaleLowerCase().localeCompare(b[0].toLocaleLowerCase());
+            return n === 0 && a !== b[0] ? b[0].localeCompare(a) : n; });
+         // console.log(data);
+          
+         for (let i in datos)
+          if(data[i]["id_producto"]==datos[i][0])
+            inventario.push("update inventario set "+"total "+" = "+(datos[i][1]+data[i]["total"]) +" where id_producto = '"+datos[i][0]+"';")
+          console.log(inventario)
+            for (let i in inventario)
+            actualizarproducto(inventario[i])
+          
+        });
         
           res.end();
      })
