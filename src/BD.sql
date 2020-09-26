@@ -751,3 +751,28 @@ select pr.producto , pp.cantidad , p.fecha, p.status  from pedido_producto pp, p
 
 
 select p.status ,p.id_cm,c.nom2,pr.producto , pp.cantidad,pp.id_producto, pp.cantidad_entrgada,p.id_pedido,  DATE_FORMAT(p.fecha ,'%Y-%m-%d')as fecha, p.status  from cms c,pedido_producto pp, pedidos p,productos pr  where  c.id_cm=p.id_cm and pp.id_pedido=p.id_pedido and pp.id_producto=pr.id_producto order by id_pedido
+
+
+
+CREATE table traspasos (
+  id_traspasos int not null AUTO_INCREMENT PRIMARY KEY,
+  id_cm int not null,
+  id_cm2 int not null,
+  fecha date not null,
+  UNIQUE (id_cm,id_cm2),
+  FOREIGN KEY(id_cm) REFERENCES cms (id_cm)
+
+
+);
+
+
+
+
+create TABLE  traspasos_producto (
+  id_tp int not null AUTO_INCREMENT PRIMARY KEY,
+  status VARCHAR (10) not null,
+  id_producto varchar(50) NOT NULL,
+  id_traspasos int not null,
+FOREIGN KEY(id_producto) REFERENCES productos (id_producto),
+FOREIGN KEY(id_traspasos) REFERENCES traspasos (id_traspasos)
+);
