@@ -592,3 +592,19 @@ app.post('/addPedidos',verificaTk,(req,res)=>
 
 
 })
+
+app.post("/traspasos",verificaTk,(req,res)=>
+{
+  jwt.verify(req.token, secret, (err, data) => {
+    if(err)
+    res.json({
+      "estatus": "Clave vencida",
+      "vecido": true
+    });
+    else
+    {
+      console.log(req.body);
+      res.end();
+    }
+})
+})
