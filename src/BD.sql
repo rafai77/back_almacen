@@ -776,3 +776,9 @@ create TABLE  traspasos_producto (
 FOREIGN KEY(id_producto) REFERENCES productos (id_producto),
 FOREIGN KEY(id_traspasos) REFERENCES traspasos (id_traspasos)
 );
+
+
+update inventario set total  = (select 840+total from almacen.inventario where  where id_producto = 'FERS0039' )where id_producto = 'FERS0039';
+
+
+select SUM(840+total) from almacen.inventario where  where id_producto = 'FERS0039' 
