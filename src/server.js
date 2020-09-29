@@ -604,6 +604,12 @@ app.post("/traspasos",verificaTk,(req,res)=>
     else
     {
       console.log(req.body);
+      var f1=moment()
+      f1=(f1.toDate().toISOString().substr(0,10))
+      mysqlConnection.query("INSERT into almacen.traspasos (id_cm,id_cm2,fecha) VALUES ( (SELECT id_cm from almacen.cms where nombre=?),(SELECT id_cm from almacen.cms where nombre=?),?)",[req.body.origen,req.body.destino,f1] ,(error,data,field)=>
+      {
+          console.log(data,error)
+      });
       res.end();
       //añadior el trasásp 
     }

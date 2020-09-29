@@ -782,3 +782,6 @@ update inventario set total  = ((select total from almacen.inventario   where id
 
 
 select total from almacen.inventario   where id_producto = 'FERS0039' 
+
+
+INSERT into almacen.traspasos (id_cm,id_cm2,fecha) VALUES ((SELECT id_cm from almacen.cms where nombre='Alamacen General'),(SELECT id_cm from almacen.cms where nombre='Cuarto de maquinas 1-Pimiento'),'2020-09-29')
