@@ -778,7 +778,7 @@ FOREIGN KEY(id_traspasos) REFERENCES traspasos (id_traspasos)
 );
 
 
-update inventario set total  = (select 840+total from almacen.inventario where  where id_producto = 'FERS0039' )where id_producto = 'FERS0039';
+update inventario set total  = ((select total from almacen.inventario   where id_producto = 'FERS0039')) where id_producto = 'FERS0039';
 
 
-select SUM(840+total) from almacen.inventario where  where id_producto = 'FERS0039' 
+select total from almacen.inventario   where id_producto = 'FERS0039' 
