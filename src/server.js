@@ -605,6 +605,7 @@ app.post("/traspasos",verificaTk,(req,res)=>
     {
       console.log(req.body);
       res.end();
+      //añadior el trasásp 
     }
 })
 })
