@@ -608,7 +608,12 @@ app.post("/traspasos",verificaTk,(req,res)=>
       f1=(f1.toDate().toISOString().substr(0,10))
       mysqlConnection.query("INSERT into almacen.traspasos (id_cm,id_cm2,fecha) VALUES ( (SELECT id_cm from almacen.cms where nombre=?),(SELECT id_cm from almacen.cms where nombre=?),?)",[req.body.origen,req.body.destino,f1] ,(error,data,field)=>
       {
-          console.log(data,error)
+
+          console.log(error)            
+          for (let i in  req.body.prestamo)
+            if(req.body.prestamo[i].valor)
+              actualizarproducto(`INSERT into traspasos_producto (status,id_producto,id_traspasos,valor) VALUES('proceso',(select id_producto from productos where producto = '${req.body.prestamo[i].nombre}' ),(select id_traspasos from traspasos where fecha='${f1}'),${req.body.prestamo[i].valor} )`)
+            
       });
       res.end();
       //añadior el trasásp 
