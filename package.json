@@ -27,6 +27,7 @@
     "mysql": "^2.18.1",
     "mysql-aes": "0.0.1",
     "node-stringbuilder": "^2.2.4",
+    "nodemon": "^2.0.4",
     "tempfile": "^3.0.0",
     "utf8": "^3.0.0",
     "web-push": "^3.4.4"
