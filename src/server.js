@@ -633,6 +633,7 @@ app.post("/traspasosview",verificaTk,(req,res)=>
     else
     {
       console.log(req.body)
+      res.end()
        
     }
   });
