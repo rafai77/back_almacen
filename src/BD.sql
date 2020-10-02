@@ -759,7 +759,7 @@ CREATE table traspasos (
   id_cm int not null,
   id_cm2 int not null,
   fecha date not null,
-  UNIQUE (id_cm,id_cm2),
+  UNIQUE (id_cm,id_cm2,fecha),
   FOREIGN KEY(id_cm) REFERENCES cms (id_cm)
 
 
@@ -788,3 +788,5 @@ INSERT into almacen.traspasos (id_cm,id_cm2,fecha) VALUES ( (SELECT id_cm from a
 
 
 INSERT into traspasos_producto (status,id_producto,id_traspasos) VALUES('proceso',(select id_producto from productos where producto = 'Nitrato de Calcio' ),(select id_traspasos from traspasos where fecha='2020-09-30'),50 )
+
+(select id_traspasos from traspasos where fecha='2020-10-02'  and id_cm= (SELECT id_cm from almacen.cms where nombre='Alamacen General') and id_cm2=(SELECT id_cm from almacen.cms where nombre='Cuarto de maquinas 5-Tomate'))
