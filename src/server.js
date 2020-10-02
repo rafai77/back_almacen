@@ -635,8 +635,23 @@ app.post("/traspasosview",verificaTk,(req,res)=>
     else
     {
       console.log(req.body)
-      mysqlConnection.query("Select t.* from t traspasos,tp traspasos_producto  ");
-      res.end()
+      mysqlConnection.query("Select DATE_FORMAT(t.fecha ,'%Y-%m-%d')as fecha,pr.producto,tp.valor,tp.status from  productos pr,traspasos t, traspasos_producto tp where t.id_traspasos=tp.id_traspasos and pr.id_producto=tp.id_producto and id_cm2=(Select id_cm from cms where nom2=?) ",[req.body.origen],(error,data)=> 
+      {
+        console.log(data,error)
+        if(error==null)
+        {
+          res.json({
+            datos:data,
+            error: false
+          })
+        }
+        else
+        res.json({
+          error:true,
+          status:"No existen datos"
+        })
+      });
+      
        
     }
   });

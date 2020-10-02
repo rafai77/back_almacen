@@ -790,3 +790,6 @@ INSERT into almacen.traspasos (id_cm,id_cm2,fecha) VALUES ( (SELECT id_cm from a
 INSERT into traspasos_producto (status,id_producto,id_traspasos) VALUES('proceso',(select id_producto from productos where producto = 'Nitrato de Calcio' ),(select id_traspasos from traspasos where fecha='2020-09-30'),50 )
 
 (select id_traspasos from traspasos where fecha='2020-10-02'  and id_cm= (SELECT id_cm from almacen.cms where nombre='Alamacen General') and id_cm2=(SELECT id_cm from almacen.cms where nombre='Cuarto de maquinas 5-Tomate'))
+
+
+Select DATE_FORMAT(t.fecha ,'%Y-%m-%d')as fecha from  productos pr,traspasos t, traspasos_producto tp where t.id_traspasos=tp.id_traspasos and pr.id_producto=tp.id_producto 
