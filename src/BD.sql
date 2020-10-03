@@ -792,4 +792,5 @@ INSERT into traspasos_producto (status,id_producto,id_traspasos) VALUES('proceso
 (select id_traspasos from traspasos where fecha='2020-10-02'  and id_cm= (SELECT id_cm from almacen.cms where nombre='Alamacen General') and id_cm2=(SELECT id_cm from almacen.cms where nombre='Cuarto de maquinas 5-Tomate'))
 
 
-Select DATE_FORMAT(t.fecha ,'%Y-%m-%d')as fecha from  productos pr,traspasos t, traspasos_producto tp where t.id_traspasos=tp.id_traspasos and pr.id_producto=tp.id_producto 
+Select DATE_FORMAT(t.fecha ,'%Y-%m-%d')as fecha,pr.producto,tp.valor,tp.status from  productos pr,traspasos t, traspasos_producto tp where t.id_traspasos=tp.id_traspasos and pr.id_producto=tp.id_producto and id_cm2=1
+
