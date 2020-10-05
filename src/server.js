@@ -608,7 +608,7 @@ app.post("/traspasos",verificaTk,(req,res)=>
     {
       var f1=moment()
       f1=(f1.toDate().toISOString().substr(0,10))
-      mysqlConnection.query("INSERT into almacen.traspasos (id_cm,id_cm2,fecha) VALUES ( (SELECT id_cm from almacen.cms where nombre=?),(SELECT id_cm from almacen.cms where nombre=?),?)",[req.body.origen,req.body.destino,f1] ,(error,data,field)=>
+      mysqlConnection.query("INSERT into almacen.traspasos (id_cm,id_cm2,fecha,status) VALUES ( (SELECT id_cm from almacen.cms where nombre=?),(SELECT id_cm from almacen.cms where nombre=?),?,'proceso')",[req.body.origen,req.body.destino,f1] ,(error,data,field)=>
       {
         //console.log(error,data)
         if(error==null)
@@ -635,9 +635,9 @@ app.post("/traspasosview",verificaTk,(req,res)=>
     else
     {
       console.log(req.body)
-      mysqlConnection.query("Select t.id_traspasos,DATE_FORMAT(t.fecha ,'%Y-%m-%d')as fecha,pr.producto,tp.valor,tp.status ,c.nombre as origen ,c2.nombre as destino from cms c,cms c2,  productos pr,traspasos t, traspasos_producto tp where  (t.id_cm=c.id_cm ) and (t.id_cm2=c2.id_cm ) and t.id_traspasos=tp.id_traspasos and pr.id_producto=tp.id_producto and id_cm2=(Select id_cm from cms where nom2=?) ",[req.body.origen],(error,data)=> 
+      mysqlConnection.query("Select t.id_traspasos,DATE_FORMAT(t.fecha ,'%Y-%m-%d')as fecha,pr.producto,tp.valor,t.status ,c.nombre as origen ,c2.nombre as destino from cms c,cms c2,  productos pr,traspasos t, traspasos_producto tp where  (t.id_cm=c.id_cm ) and (t.id_cm2=c2.id_cm ) and t.id_traspasos=tp.id_traspasos and pr.id_producto=tp.id_producto and id_cm2=(Select id_cm from cms where nom2=?) ",[req.body.origen],(error,data)=> 
       {
-        console.log(data,error)
+        console.error(error)
         if(error==null)
         {
           res.json({
@@ -655,4 +655,40 @@ app.post("/traspasosview",verificaTk,(req,res)=>
        
     }
   });
+});
+
+app.post("/statustraspasos",verificaTk,(req,res)=>
+{
+  jwt.verify(req.token, secret,(err,data)=>
+  {
+    if(err)
+    res.json({
+      "estatus": "Clave vencida",
+      "vecido": true
+    });
+    else
+    {
+      console.log(req.body)
+      mysqlConnection.query("Update traspasos set status='Entregando' where id_traspasos=? ",[req.body.id],(error,data)=>
+      {
+        console.log(error)
+        if(error==null)
+        {
+          res.json({
+            status:"bien",
+            error:false
+          })
+        }
+        else
+        {
+          res.json({
+            status:"bien",
+            error:false
+          })
+        }
+      })
+      
+    }
+
+  })
 });
