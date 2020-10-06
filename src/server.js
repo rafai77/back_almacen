@@ -21,6 +21,7 @@ var secret = "abc1234cimarron"
 const StringBuilder = require('node-stringbuilder');
 const cors = require('cors');
 const AES = require('mysql-aes');
+const { error } = require("console");
 app.use(cors());
 app.options('*', cors());
 const IV_LENGTH = 16
@@ -341,7 +342,7 @@ app.post('/addconsumo', verificaTk, async (req, res) => {
 async function actualizarproducto (query) {
   try{
   const r= await mysqlConnection.query(query);
-  console.log(r.error)
+  //console.log(r)
   }
   catch{
     console.log("error")
@@ -594,6 +595,40 @@ app.post('/addPedidos',verificaTk,(req,res)=>
 
 })
 
+app.delete("/BorrarPedidos/:id",verificaTk,(req,res)=>
+{
+  jwt.verify(req.token, secret, (err, data) => {
+    if(err)
+    res.json({
+      "estatus": "Clave vencida",
+      "vecido": true
+    });
+    else
+    {
+      console.log("Borrar datos con ",req.params)
+        mysqlConnection.query("Delete from pedido_producto where id_pedido=?",[req.params.id],(error,data)=>
+        {
+          console.log(error)
+          if(error==null)
+            mysqlConnection.query("Delete from pedidos where id_pedido=?",[req.params.id],(error,data)=>
+            {
+              console.log(error)
+              res.json({
+                error:false,
+                status:"Datos Borrados"
+              })
+            })
+          else
+          res.json({
+            error:true,
+            status:"No existen datos"
+          })
+        });
+
+    }
+  }); 
+});
+
 
 
 app.post("/traspasos",verificaTk,(req,res)=>
@@ -622,6 +657,73 @@ app.post("/traspasos",verificaTk,(req,res)=>
     }
 })
 })
+
+
+
+app.delete("/Borrartraspasos/:id",verificaTk,(req,res)=>
+{
+  jwt.verify(req.token, secret, (err, data) => {
+    if(err)
+    res.json({
+      "estatus": "Clave vencida",
+      "vecido": true
+    });
+    else
+    {
+      console.log("Borrar datos con ",req.params)
+        mysqlConnection.query("Delete from traspasos_producto where id_traspasos=?",[req.params.id],(error,data)=>
+        {
+          console.log(error)
+          if(error==null)
+            mysqlConnection.query("Delete from traspasos where id_traspasos=?",[req.params.id],(error,data)=>
+            {
+              res.json({
+                error:false,
+                status:"Datos Borrados"
+              })
+            })
+          else
+          res.json({
+            error:true,
+            status:"No existen datos"
+          })
+        });
+    }    
+  })
+})
+
+app.post("/traspasosviewAdmin",verificaTk,(req,res)=>
+{
+  jwt.verify(req.token, secret, (err, data) => {
+    if(err)
+    res.json({
+      "estatus": "Clave vencida",
+      "vecido": true
+    });
+    else
+    {
+      console.log(req.body)
+      mysqlConnection.query("Select t.id_traspasos,DATE_FORMAT(t.fecha ,'%Y-%m-%d')as fecha,pr.producto,tp.valor,t.status ,c.nombre as origen ,c2.nombre as destino from cms c,cms c2,  productos pr,traspasos t, traspasos_producto tp where  (t.id_cm=c.id_cm ) and (t.id_cm2=c2.id_cm ) and t.id_traspasos=tp.id_traspasos and pr.id_producto=tp.id_producto  ",(error,data)=> 
+      {
+        console.error(error)
+        if(error==null)
+        {
+          res.json({
+            datos:data,
+            error: false
+          })
+        }
+        else
+        res.json({
+          error:true,
+          status:"No existen datos"
+        })
+      });
+      
+       
+    }
+  });
+});
 
 
 app.post("/traspasosview",verificaTk,(req,res)=>

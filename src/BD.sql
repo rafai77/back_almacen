@@ -35,12 +35,14 @@ INSERT INTO usuarios
    nombre,user,pass,rol
 )
 VALUES
-("Cuarnto de maquinas 1","usercm1",aes_encrypt("cm12020","abc1234cimarron"),"userm");
+("Cuarnto de maquinas 1","usercm1",aes_encrypt("cm12020","abc1234cimarron"),"user");
 
 
 select user, aes_decrypt(pass ,"abc1234cimarron") from usuarios;
 
+select  aes_encrypt("cm12020" ,"abc1234cimarron") from usuarios;
 
+UPDATE usuarios set pass =( aes_encrypt("cm12020" ,"abc1234cimarron") )where id_user=3;
 select * from usuarios where user='Hcimarron' and aes_decrypt(pass ,"abc1234cimarron")='cimarron2020'
 
  create TABLE inventario
