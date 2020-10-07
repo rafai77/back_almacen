@@ -806,6 +806,24 @@ async function exe(sql)
     }
 }
 
+
+app.post("/editarTabla",verificaTk,(req,res)=>
+{
+  jwt.verify(req.token, secret,(err,data)=>
+  {
+    if(err)
+    res.json({
+      "estatus": "Clave vencida",
+      "vecido": true
+    });
+    else
+    {
+      console.log(req.body)
+      res.end()
+    }
+  })
+})
+
 app.post("/trapaso",verificaTk, (req,res) =>
 {
   jwt.verify(req.token, secret,(err,data)=>
