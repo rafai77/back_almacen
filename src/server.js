@@ -795,8 +795,18 @@ app.post("/statustraspasos",verificaTk,(req,res)=>
   })
 });
 
+async function exe(sql)
+{
+  try{
+    const r= await mysqlConnection.query(query);
+    return r.RowDataPacket
+    }
+    catch{
+      console.log("error")
+    }
+}
 
-app.post("/trapaso",verificaTk,(req,res)=>
+app.post("/trapaso",verificaTk, (req,res) =>
 {
   jwt.verify(req.token, secret,(err,data)=>
   {
@@ -814,14 +824,89 @@ app.post("/trapaso",verificaTk,(req,res)=>
     var origen=data.origen;
     var destino =data.destino;
     console.log(id,origen,destino)
-    mysqlConnection.query("select c1.nom2 as origen,c2.nom2 as destino from cms c1,cms c2 where c1.nombre=? and c2.nombre=?",[origen,destino],(err,data)=>
+    mysqlConnection.query("select c1.nom2 as origen,c2.nom2 as destino from cms c1,cms c2 where c1.nombre=? and c2.nombre=?",[origen,destino], (err,data)=>
     {
+      var tablas=data[0]
       console.log(err,data)
+      if(err==null) 
+      { 
+        let sql=`select DISTINCT  id_producto,total from ${data[0].origen} ORDER BY id_producto ` 
+        let sql2=`select DISTINCT  id_producto,total from ${data[0].destino} ORDER BY id_producto ` 
+        let sql3=`select id_producto,valor from traspasos_producto where id_traspasos=${id}   ORDER BY id_producto  `
+        mysqlConnection.query(sql,(err ,data)=>
+        {
+          var origen=data
+          //console.log(err,origen)
+          if(err==null)
+          {
+            mysqlConnection.query(sql2,(err ,data)=>
+            {
+              var destino=data
+              //console.log(err,origen,destino)
+              if(err==null)
+              {
+                mysqlConnection.query(sql3,(err ,data)=>
+                {
+                  var tras=data
+                  console.log(err,origen,destino,tras)
+                  if(err==null)
+                  {
+                    let df=[]
+                    let of=[]
+    
+                    for (let i in tras)
+                    {
+                      for(let j in origen)
+                      {
+                        if(tras[i].id_producto==origen[j].id_producto)
+                        {
+                          let auxO="Update "+tablas.origen+" set total = "+(origen[j].total -tras[i].valor  )+"  where id_producto='"+origen[j].id_producto+"'";
+                          let auxd="Update "+tablas.destino+" set total = "+(destino[j].total +tras[i].valor  )+"  where id_producto='"+destino[j].id_producto+"'";
+                          actualizarproducto(auxO)
+                          actualizarproducto(auxd)
+                          // df.push(auxO);
+                          //of.push(auxd);
+
+                        }
+                        
+                      }
+                      
+                    }
+
+                    actualizarproducto("Update traspasos set status= 'Validado' where and id_traspasos="+id)
+                    actualizarproducto("Update traspasos_producto set status= 'Validado' where id_traspasos="+id)
+                  }
+                  else
+                  res.json({
+                    stratus:"no se puede actualizar ese QR",
+                    error:true
+                  })
+                }) 
+              }
+              else
+              res.json({
+                stratus:"no se puede actualizar ese QR",
+                error:true
+              })
+            })
+          }
+          else
+          res.json({
+            stratus:"no se puede actualizar ese QR",
+            error:true
+          })
+        })
+        
+
+      }
+      else
+      res.json({
+        stratus:"no se puede actualizar ese QR",
+        error:true
+      })
+
     })
-    res.json({
-      stratus:"hola",
-      error:false
-    })
+    
   }
 
 
