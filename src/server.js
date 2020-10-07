@@ -819,6 +819,8 @@ app.post("/editarTabla",verificaTk,(req,res)=>
     else
     {
       console.log(req.body)
+      for (let i in req.body["datos"])
+       actualizarproducto("Update "+req.body["cm"] +" set total= "+req.body["datos"][i]["valor"]+" where id_producto= '"+req.body["datos"][i]["id"]+"'") 
       res.end()
     }
   })
