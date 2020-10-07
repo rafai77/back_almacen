@@ -796,3 +796,4 @@ INSERT into traspasos_producto (status,id_producto,id_traspasos) VALUES('proceso
 
 Select DATE_FORMAT(t.fecha ,'%Y-%m-%d')as fecha,pr.producto,tp.valor,tp.status from  productos pr,traspasos t, traspasos_producto tp where t.id_traspasos=tp.id_traspasos and pr.id_producto=tp.id_producto and id_cm2=1
 
+select c1.nom2 as 1,c2.nom2 as 2 from cms c1,cms c2 where c1.nombre='Alamacen General' and c2.nombre='Cuarto de maquinas 1-Pimiento'

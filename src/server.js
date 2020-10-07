@@ -794,3 +794,36 @@ app.post("/statustraspasos",verificaTk,(req,res)=>
 
   })
 });
+
+
+app.post("/trapaso",verificaTk,(req,res)=>
+{
+  jwt.verify(req.token, secret,(err,data)=>
+  {
+  if(err)
+  res.json({
+    "estatus": "Clave vencida",
+    "vecido": true
+  });
+  else
+  {
+    var data=(req.body.datos)
+    console.log(req.body.datos)
+    data=JSON.parse(data)
+    var id=data.id_traspasos;
+    var origen=data.origen;
+    var destino =data.destino;
+    console.log(id,origen,destino)
+    mysqlConnection.query("select c1.nom2 as origen,c2.nom2 as destino from cms c1,cms c2 where c1.nombre=? and c2.nombre=?",[origen,destino],(err,data)=>
+    {
+      console.log(err,data)
+    })
+    res.json({
+      stratus:"hola",
+      error:false
+    })
+  }
+
+
+}) 
+})
