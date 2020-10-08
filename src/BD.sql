@@ -801,3 +801,5 @@ select c1.nom2 as origen,c2.nom2 as destino from cms c1,cms c2 where c1.nombre='
 select DISTINCT  id_producto,total from cm1 ORDER BY id_producto
 select DISTINCT  id_producto,total from inventario ORDER BY id_producto
 select   id_producto,valor from traspasos_producto where id_traspasos=21  ORDER BY id_producto
+
+insert into formulas (id_producto,cantidad,id_cm ) VALUES('FERS0008', 100,(select id_cm from cms where nom2='cm1' ) )
