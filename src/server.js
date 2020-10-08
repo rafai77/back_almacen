@@ -256,12 +256,13 @@ app.post('/addconsumo', verificaTk, async (req, res) => {
       var cm=""
       if(req.body.cm=="cm1")
         cm="consumocm1"
-      let sql = "select id_producto,producto from productos where "
+     
+      let sql = "select id_producto,producto from productos  where  "
       for (var i in productos) {
         sql += "producto='" + productos[i] + "' or ";
       }
      // console.log(sql.substr(0, sql.length - 3));
-      sql = sql.substr(0, sql.length - 3)
+      sql = sql.substr(0, sql.length -3 )
       var productos_totales = [];
       var t
       for (let j in cantidades)
@@ -291,39 +292,49 @@ app.post('/addconsumo', verificaTk, async (req, res) => {
         }
       
         //
+        console.log(sql)
+
     
-      mysqlConnection.query(sql, function (error, result, fields) {
-        let consumo = [];
-        for (let j in result) {
-          consumo.push([
-             result[j].id_producto,
-            productos_totales[productos.indexOf(result[j].producto)].cantidades,1,moment().format().substr(0, 10)]
-          )
-        }
       
-       
-        mysqlConnection.query("insert into consumocm1 (id_producto,cantidad ,id_cm,fecha) Values ?", [consumo], function (er, row, field) {
-    
-          if(er!=null)
-          {
-            
-            res.json({"error":true,"status":"Ya aplico formula el dia de hoy\n ó  no tiene suficiente producto verifique "});
+        mysqlConnection.query(`select id_cm from cms where nom2="${req.body.cm}"`,(e,d)=>
+        {
+          console.log(e,d[0].id_cm,"asfdfsdfd")
+
+          mysqlConnection.query(sql, function (error, result, fields) {
+            let consumo = [];
+          for (let j in result) {
+            consumo.push([
+               result[j].id_producto,
+              productos_totales[productos.indexOf(result[j].producto)].cantidades,d[0].id_cm,moment().format().substr(0, 10)]
+            )
           }
-          
-          else
-          {
-            
-            let sqlUpdatecm=[];
-            for (let j in producto_cantidades_inven)
-              actualizarproducto(` UPDATE ${req.body.cm} set `+" total="+producto_cantidades_inven[j].total +" Where id_producto= '"+producto_cantidades_inven[j].id_producto +"';");
-              
-            
-          }
-           
-       });
-  
+        
          
-      });
+          mysqlConnection.query("insert into consumocm1 (id_producto,cantidad ,id_cm,fecha) Values ?", [consumo], function (er, row, field) {
+            console.log(row,er)
+  
+            if(er!=null)
+            {
+              
+              res.json({"error":true,"status":"Ya aplico formula el dia de hoy\n ó  no tiene suficiente producto verifique "});
+            }
+            
+            else
+            {
+              
+              let sqlUpdatecm=[];
+              for (let j in producto_cantidades_inven)
+                actualizarproducto(` UPDATE ${req.body.cm} set `+" total="+producto_cantidades_inven[j].total +" Where id_producto= '"+producto_cantidades_inven[j].id_producto +"';");
+                
+              
+            }
+             
+         });
+    
+           
+        });
+        })
+       
 
     }
   });
@@ -349,11 +360,10 @@ app.post('/Consumo',verificaTk,(req,res)=>
     "vecido": true
   });
   else{
-   //console.log(req.body);
-    
-    mysqlConnection.query( `Select DATE_FORMAT(x.fecha ,'%Y-%m-%d')as fecha,p.producto,x.cantidad from productos p,${req.body.cm} x where x.id_producto=p.id_producto and fecha BETWEEN ? and ?`,[req.body.f1.substr(0,10),req.body.f2.substr(0,10)],function(error,data,field)
+    console.log(req.body)
+    mysqlConnection.query( `Select DATE_FORMAT(x.fecha ,'%Y-%m-%d')as fecha,p.producto,x.cantidad from productos p,${req.body.cm} x where x.id_cm=(Select id_cm from cms where nom2=? ) and x.id_producto=p.id_producto and fecha BETWEEN ? and ?`,[req.body.cm2,req.body.f1.substr(0,10),req.body.f2.substr(0,10)],function(error,data,field)
     {
-     //console.log(error)
+     console.log(error)
       res.json(data);
     });
 

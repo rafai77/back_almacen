@@ -803,3 +803,22 @@ select DISTINCT  id_producto,total from inventario ORDER BY id_producto
 select   id_producto,valor from traspasos_producto where id_traspasos=21  ORDER BY id_producto
 
 insert into formulas (id_producto,cantidad,id_cm ) VALUES('FERS0008', 100,(select id_cm from cms where nom2='cm1' ) )
+
+
+
+
+
+CREATE table consumocm2
+(
+  id_consucm1 int not null AUTO_INCREMENT PRIMARY KEY,
+  id_producto varchar(50) NOT NULL, 
+  cantidad DECIMAL(12,3) NOT NULL,
+  id_cm int not null ,
+  fecha DATE not null,
+  FOREIGN KEY(id_producto) REFERENCES productos (id_producto),
+  FOREIGN KEY(id_cm) REFERENCES cms (id_cm),
+  UNIQUE (id_producto,id_cm,fecha)
+)
+
+
+Select id_cm from cms where nom2='cm2'
