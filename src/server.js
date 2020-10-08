@@ -236,16 +236,6 @@ app.get('/formulaView/:cm/', verificaTk, (req, res) => {
   });
 });
 
-app.post('/formulaadd', verificaTk, (req, res) => {
-  if (err) {
-    res.json({
-      "estatus": "Clave vencida",
-      "vecido": true
-    });
-  } else {
-
-  }
-});
 
 app.post('/addconsumo', verificaTk, async (req, res) => {
   jwt.verify(req.token, secret, (err, data) => {
@@ -826,6 +816,36 @@ app.post("/editarTabla",verificaTk,(req,res)=>
   })
 })
 
+
+app.post("/formulaadd",verificaTk,(req,res)=>
+{
+  jwt.verify(req.token, secret,(err,data)=>
+  {
+    if(err)
+    res.json({
+      "estatus": "Clave vencida",
+      "vecido": true
+    });
+    else
+    {
+     var datos=req.body.datos;
+     console.log(datos)
+     res.end()
+     mysqlConnection.query("delete from formulas where id_cm=(select id_cm from cms where nom2=?) ",[req.body.cm],(err,data)=>
+     {
+
+       for (let i in datos)
+       {
+         actualizarproducto("insert into formulas (id_producto,cantidad,id_cm ) VALUES('"+datos[i].id+"', "+ datos[i].valor +",(select id_cm from cms where nom2='"+ req.body.cm+"' ) ) ")
+       }
+     })
+    }
+    
+  })
+})
+
+
+
 app.post("/trapaso",verificaTk, (req,res) =>
 {
   jwt.verify(req.token, secret,(err,data)=>
@@ -893,7 +913,7 @@ app.post("/trapaso",verificaTk, (req,res) =>
                       
                     }
 
-                    actualizarproducto("Update traspasos set status= 'Validado' where and id_traspasos="+id)
+                    actualizarproducto("Update traspasos set status= 'Validado' where  id_traspasos="+id)
                     actualizarproducto("Update traspasos_producto set status= 'Validado' where id_traspasos="+id)
                   }
                   else
