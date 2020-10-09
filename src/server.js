@@ -1,4 +1,4 @@
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 2000;
 const express = require("express");
 const app = express();
 const jwt = require('jsonwebtoken'); //para la auth
